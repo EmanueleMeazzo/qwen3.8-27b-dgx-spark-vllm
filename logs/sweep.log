@@ -1,0 +1,480 @@
+=================== EXPERIMENT Q-unsloth-nvfp4 ===================
+>>> qwen38: model=unsloth/Qwen3.8-27B-NVFP4 spec=3 memutil=0.90 seqs=16 batch=8192 ctx=262144 cpuset=5-9,15-19
+>>> extra: none
+4a546e51320d95db8d023c77dc56adccda225997aeef1c63240a3ecd039ddb7b
+--- server up (boot ok) ---
+[code] net=28.02 tok/s  vis=28.02  ttft=0.273s  e2e=27.71 tok/s  (3 reps)
+[essay] net=19.17 tok/s  vis=19.17  ttft=0.319s  e2e=19.0 tok/s  (3 reps)
+[chat] net=22.21 tok/s  vis=22.21  ttft=0.288s  e2e=21.16 tok/s  (3 reps)
+[mtp] acceptance={'accepted_over_draft': 0.5999, 'accepted': 2937, 'drafted': 4896}
+saved -> /home/emeazzo/dev/qwen3.8/results/Q-unsloth-nvfp4.json
+PASS | What is 17 * 23? -> To calculate $17 \times 23$, you can use standard multiplica
+PASS | What is 1024 + 640? -> To calculate the sum of 1024 and 640, we can add the numbers
+PASS | What is the capital of Australia? Answer with the  -> Canberra
+PASS | How many strings does a standard guitar have? One  -> 6
+PASS | What is the square root of 144? -> The square root of 144 is **12**.  **Reasoning:** To find th
+PASS | If a train travels 60 km in 45 minutes, what is it -> 80
+PASS | What year did the Berlin Wall fall? Year only. -> 1989
+PASS | Name the largest planet in our solar system. One w -> Jupiter
+PASS | What is 15% of 200? Number only. -> 30
+PASS | In Python, what does len([1,2,3]) return? Number o -> 3
+PASS | What is the next prime after 13? Number only. -> 17
+PASS | Spell the chemical symbol for gold. Two letters. -> Au
+
+SCORE: 12/12
+[prose   ] probes= 14 coverage=0.929 ppl(covered)=3.1134
+[code    ] probes= 21 coverage=1.000 ppl(covered)=1.4107
+[math    ] probes= 23 coverage=1.000 ppl(covered)=1.5902
+[chinese ] probes= 11 coverage=1.000 ppl(covered)=9.8471
+
+PPL geomean (covered positions): 2.8798
+saved -> /home/emeazzo/dev/qwen3.8/results/fid-Q-unsloth-nvfp4.json
+PASS | reason | A train leaves at 09:40 and the trip takes 3 hours 55 mi -> 14:00
+PASS | reason | A shop sells pens at 3 for $4.50. I buy 14 pens. Individ -> $3.60
+PASS | reason | Start with 128. Halve it three times, then add 17, then  -> 132
+FAIL | reason | A rectangle has perimeter 46 cm and its length is 5 cm m -> 126
+PASS | reason | If today is Wednesday, what day of the week is it 100 da -> Friday
+PASS | reason | A tank holds 240 litres. It is 5/8 full. I remove 45 lit -> 9/16
+FAIL | reason | Three consecutive even integers sum to 138. What is the  -> 48
+PASS | reason | I have 5 red, 3 blue and 2 green marbles. I draw two wit -> 2/9
+FAIL | reason | A car travels 150 km at 75 km/h, then 90 km at 45 km/h.  -> 60
+FAIL | reason | What is 15% of 15% of 8000? Number only. -> 180
+PASS | reason | A number increased by 30% is 260. What was the original  -> 200
+PASS | reason | In a class of 30, 18 play football, 15 play tennis, and  -> 4
+FAIL | reason | The sequence goes 2, 6, 12, 20, 30, ... What is the 8th  -> 72
+PASS | reason | A book costs $24 after a 20% discount. What was the orig -> 30
+PASS | reason | If 3 machines make 3 widgets in 3 minutes, how long do 1 -> 3
+FAIL | reason | Solve for x: 2(x - 3) + 4 = 3x - 7. Number only. -> 5
+PASS | reason | A cube has surface area 150 cm^2. What is its volume in  -> 125
+PASS | reason | I start with $100. I lose 20%, then gain 20% of the new  -> $96.00
+FAIL | reason | What is the sum of all integers from 1 to 100 that are d -> 735
+PASS | reason | A recipe for 4 people needs 300 g flour. I cook for 7 pe -> 525
+FAIL | reason | Two trains 300 km apart approach each other at 60 km/h a -> 2
+FAIL | reason | What is the remainder when 7^100 is divided by 5? Number -> 1
+PASS | reason | A right triangle has legs 9 and 12. What is the length o -> 15
+FAIL | reason | If x + y = 12 and xy = 35, what is x^2 + y^2? Number onl -> 74
+
+REASONING: 14/24
+PASS | code   | run_length_encode 
+PASS | code   | balanced 
+PASS | code   | merge_intervals 
+PASS | code   | roman_to_int 
+PASS | code   | word_frequencies 
+PASS | code   | spiral 
+PASS | code   | longest_common_prefix 
+PASS | code   | base_convert 
+
+CODE: 8/8
+
+COMBINED: 22/32
+saved -> /home/emeazzo/dev/qwen3.8/results/cap-Q-unsloth-nvfp4.json
+=================== DONE Q-unsloth-nvfp4 ===================
+QUANT SWEEP COMPLETE
+=================== EXPERIMENT Q-bf16 ===================
+>>> qwen38: model=Qwen/Qwen3.8-27B spec=3 memutil=0.90 seqs=16 batch=8192 ctx=262144 cpuset=5-9,15-19
+>>> extra: none
+107e9b2c69bdcaccec3c98295b1e743303b158a9cb734b33a09653e9ea098a3d
+--- server up (boot ok) ---
+[code] net=11.93 tok/s  vis=11.93  ttft=0.597s  e2e=11.81 tok/s  (3 reps)
+[essay] net=8.33 tok/s  vis=8.33  ttft=0.602s  e2e=8.27 tok/s  (3 reps)
+[chat] net=10.07 tok/s  vis=10.07  ttft=0.602s  e2e=9.58 tok/s  (3 reps)
+[mtp] acceptance={'accepted_over_draft': 0.6051, 'accepted': 2946, 'drafted': 4869}
+saved -> /home/emeazzo/dev/qwen3.8/results/Q-bf16.json
+PASS | What is 17 * 23? -> To calculate $17 \times 23$, we can break it down using the 
+PASS | What is 1024 + 640? -> To calculate the sum of 1024 and 640, we can add the numbers
+PASS | What is the capital of Australia? Answer with the  -> Canberra
+PASS | How many strings does a standard guitar have? One  -> 6
+PASS | What is the square root of 144? -> The square root of 144 is **12**.  **Step-by-step deduction:
+PASS | If a train travels 60 km in 45 minutes, what is it -> 80
+PASS | What year did the Berlin Wall fall? Year only. -> 1989
+PASS | Name the largest planet in our solar system. One w -> Jupiter
+PASS | What is 15% of 200? Number only. -> 30
+PASS | In Python, what does len([1,2,3]) return? Number o -> 3
+PASS | What is the next prime after 13? Number only. -> 17
+PASS | Spell the chemical symbol for gold. Two letters. -> Au
+
+SCORE: 12/12
+[prose   ] probes= 14 coverage=0.929 ppl(covered)=3.0104
+[code    ] probes= 21 coverage=1.000 ppl(covered)=1.4364
+[math    ] probes= 23 coverage=1.000 ppl(covered)=1.5942
+[chinese ] probes= 11 coverage=0.909 ppl(covered)=7.0314
+
+PPL geomean (covered positions): 2.6386
+saved -> /home/emeazzo/dev/qwen3.8/results/fid-Q-bf16.json
+PASS | reason | A train leaves at 09:40 and the trip takes 3 hours 55 mi -> 14:00
+PASS | reason | A shop sells pens at 3 for $4.50. I buy 14 pens. Individ -> $3.60
+PASS | reason | Start with 128. Halve it three times, then add 17, then  -> 132
+FAIL | reason | A rectangle has perimeter 46 cm and its length is 5 cm m -> 126
+PASS | reason | If today is Wednesday, what day of the week is it 100 da -> Friday
+PASS | reason | A tank holds 240 litres. It is 5/8 full. I remove 45 lit -> 9/16
+FAIL | reason | Three consecutive even integers sum to 138. What is the  -> 48
+PASS | reason | I have 5 red, 3 blue and 2 green marbles. I draw two wit -> 2/9
+FAIL | reason | A car travels 150 km at 75 km/h, then 90 km at 45 km/h.  -> 60
+FAIL | reason | What is 15% of 15% of 8000? Number only. -> 180
+PASS | reason | A number increased by 30% is 260. What was the original  -> 200
+PASS | reason | In a class of 30, 18 play football, 15 play tennis, and  -> 4
+FAIL | reason | The sequence goes 2, 6, 12, 20, 30, ... What is the 8th  -> 72
+PASS | reason | A book costs $24 after a 20% discount. What was the orig -> 30
+PASS | reason | If 3 machines make 3 widgets in 3 minutes, how long do 1 -> 3
+FAIL | reason | Solve for x: 2(x - 3) + 4 = 3x - 7. Number only. -> 5
+PASS | reason | A cube has surface area 150 cm^2. What is its volume in  -> 125
+PASS | reason | I start with $100. I lose 20%, then gain 20% of the new  -> $96.00
+FAIL | reason | What is the sum of all integers from 1 to 100 that are d -> 735
+PASS | reason | A recipe for 4 people needs 300 g flour. I cook for 7 pe -> 525
+FAIL | reason | Two trains 300 km apart approach each other at 60 km/h a -> 2
+FAIL | reason | What is the remainder when 7^100 is divided by 5? Number -> 1
+PASS | reason | A right triangle has legs 9 and 12. What is the length o -> 15
+FAIL | reason | If x + y = 12 and xy = 35, what is x^2 + y^2? Number onl -> 74
+
+REASONING: 14/24
+PASS | code   | run_length_encode 
+PASS | code   | balanced 
+PASS | code   | merge_intervals 
+PASS | code   | roman_to_int 
+PASS | code   | word_frequencies 
+PASS | code   | spiral 
+PASS | code   | longest_common_prefix 
+PASS | code   | base_convert 
+
+CODE: 8/8
+
+COMBINED: 22/32
+saved -> /home/emeazzo/dev/qwen3.8/results/cap-Q-bf16.json
+=================== DONE Q-bf16 ===================
+QUANT SWEEP COMPLETE
+=================== EXPERIMENT V2-mtp4-ladder ===================
+>>> qwen38: model=unsloth/Qwen3.8-27B-NVFP4 spec=4 memutil=0.90 seqs=16 batch=8192 ctx=262144 cpuset=5-9,15-19
+>>> extra: none
+7bb4c7e44f2a0a421296c88245d0323f339a31784447506d5333db75653b0bff
+--- server up (boot ok) ---
+[code] net=31.1 tok/s  vis=31.1  ttft=0.306s  e2e=30.67 tok/s  (3 reps)
+[essay] net=18.65 tok/s  vis=18.65  ttft=0.302s  e2e=18.51 tok/s  (3 reps)
+[chat] net=19.84 tok/s  vis=19.84  ttft=0.306s  e2e=18.92 tok/s  (3 reps)
+[mtp] acceptance={'accepted_over_draft': 0.5038, 'accepted': 3065, 'drafted': 6084}
+saved -> /home/emeazzo/dev/qwen3.8/results/V2-mtp4-ladder.json
+[essay] net=19.69 tok/s  vis=19.69  ttft=0.281s  e2e=19.54 tok/s  (1 reps)
+[mtp] acceptance={'accepted_over_draft': 0.49, 'accepted': 3514, 'drafted': 7172}
+[ladder] {'streams': 1, 'errors': 0, 'wall_s': 38.23, 'aggregate_tok_s': 18.3, 'per_stream_tok_s': 18.4, 'ttft_med_s': 0.283, 'ttft_max_s': 0.283}
+[ladder] {'streams': 2, 'errors': 0, 'wall_s': 41.94, 'aggregate_tok_s': 33.4, 'per_stream_tok_s': 17.7, 'ttft_med_s': 2.278, 'ttft_max_s': 4.097}
+[ladder] {'streams': 4, 'errors': 0, 'wall_s': 42.91, 'aggregate_tok_s': 64.5, 'per_stream_tok_s': 16.7, 'ttft_med_s': 0.55, 'ttft_max_s': 0.551}
+[ladder] {'streams': 8, 'errors': 0, 'wall_s': 57.61, 'aggregate_tok_s': 97.2, 'per_stream_tok_s': 12.5, 'ttft_med_s': 0.637, 'ttft_max_s': 0.639}
+saved -> /home/emeazzo/dev/qwen3.8/results/V2-mtp4-ladder-ladder.json
+PASS | What is 17 * 23? -> To calculate $17 \times 23$, we can break it down using the 
+PASS | What is 1024 + 640? -> To calculate the sum of 1024 and 640, we can add the numbers
+PASS | What is the capital of Australia? Answer with the  -> Canberra
+PASS | How many strings does a standard guitar have? One  -> 6
+PASS | What is the square root of 144? -> The square root of 144 is **12**.  **Step-by-step derivation
+PASS | If a train travels 60 km in 45 minutes, what is it -> 80
+PASS | What year did the Berlin Wall fall? Year only. -> 1989
+PASS | Name the largest planet in our solar system. One w -> Jupiter
+PASS | What is 15% of 200? Number only. -> 30
+PASS | In Python, what does len([1,2,3]) return? Number o -> 3
+PASS | What is the next prime after 13? Number only. -> 17
+PASS | Spell the chemical symbol for gold. Two letters. -> The chemical symbol for gold is **Au**.  It is derived from 
+
+SCORE: 12/12
+[prose   ] probes= 14 coverage=0.929 ppl(covered)=2.9845
+[code    ] probes= 21 coverage=1.000 ppl(covered)=1.4255
+[math    ] probes= 23 coverage=1.000 ppl(covered)=1.5465
+[chinese ] probes= 11 coverage=1.000 ppl(covered)=11.3827
+
+PPL geomean (covered positions): 2.9418
+saved -> /home/emeazzo/dev/qwen3.8/results/fid-V2-mtp4-ladder.json
+=================== DONE V2-mtp4-ladder ===================
+=================== EXPERIMENT Q-radixark-nvfp4 ===================
+>>> qwen38: model=RadixArk/Qwen3.8-27B-NVFP4 spec=3 memutil=0.90 seqs=16 batch=8192 ctx=262144 cpuset=5-9,15-19
+>>> extra: none
+550575e5cfb2cf594f6039e51c9d22cf30f97923da52719558bf0d1e9c8d4337
+--- server up (boot ok) ---
+[code] net=30.64 tok/s  vis=30.64  ttft=0.259s  e2e=30.29 tok/s  (3 reps)
+[essay] net=21.33 tok/s  vis=21.33  ttft=0.245s  e2e=21.18 tok/s  (3 reps)
+[chat] net=24.76 tok/s  vis=24.76  ttft=0.268s  e2e=23.17 tok/s  (3 reps)
+[mtp] acceptance={'accepted_over_draft': 0.5932, 'accepted': 2929, 'drafted': 4938}
+saved -> /home/emeazzo/dev/qwen3.8/results/Q-radixark-nvfp4.json
+PASS | What is 17 * 23? -> To calculate $17 \times 23$, we can use the standard multipl
+PASS | What is 1024 + 640? -> To calculate the sum of 1024 and 640, we can add the numbers
+PASS | What is the capital of Australia? Answer with the  -> Canberra
+PASS | How many strings does a standard guitar have? One  -> 6
+PASS | What is the square root of 144? -> The square root of 144 is **12**.  **Reasoning:** To find th
+PASS | If a train travels 60 km in 45 minutes, what is it -> 80
+PASS | What year did the Berlin Wall fall? Year only. -> 1989
+PASS | Name the largest planet in our solar system. One w -> Jupiter
+PASS | What is 15% of 200? Number only. -> 30
+PASS | In Python, what does len([1,2,3]) return? Number o -> 3
+PASS | What is the next prime after 13? Number only. -> 17
+PASS | Spell the chemical symbol for gold. Two letters. -> The chemical symbol for gold is **Au**.  It comes from the L
+
+SCORE: 12/12
+[prose   ] probes= 14 coverage=0.929 ppl(covered)=3.2402
+[code    ] probes= 21 coverage=1.000 ppl(covered)=1.4269
+[math    ] probes= 23 coverage=1.000 ppl(covered)=1.7033
+[chinese ] probes= 11 coverage=0.909 ppl(covered)=6.901
+
+PPL geomean (covered positions): 2.7151
+saved -> /home/emeazzo/dev/qwen3.8/results/fid-Q-radixark-nvfp4.json
+FAIL | reason | A train leaves at 09:40 and the trip takes 3 hours 55 mi -> 14:00
+PASS | reason | A shop sells pens at 3 for $4.50. I buy 14 pens. Individ -> $3.60
+PASS | reason | Start with 128. Halve it three times, then add 17, then  -> 132
+FAIL | reason | A rectangle has perimeter 46 cm and its length is 5 cm m -> 126
+PASS | reason | If today is Wednesday, what day of the week is it 100 da -> Friday
+PASS | reason | A tank holds 240 litres. It is 5/8 full. I remove 45 lit -> 9/16
+FAIL | reason | Three consecutive even integers sum to 138. What is the  -> 48
+PASS | reason | I have 5 red, 3 blue and 2 green marbles. I draw two wit -> 2/9
+FAIL | reason | A car travels 150 km at 75 km/h, then 90 km at 45 km/h.  -> 60
+FAIL | reason | What is 15% of 15% of 8000? Number only. -> 180
+PASS | reason | A number increased by 30% is 260. What was the original  -> 200
+PASS | reason | In a class of 30, 18 play football, 15 play tennis, and  -> 4
+FAIL | reason | The sequence goes 2, 6, 12, 20, 30, ... What is the 8th  -> 72
+PASS | reason | A book costs $24 after a 20% discount. What was the orig -> 30
+PASS | reason | If 3 machines make 3 widgets in 3 minutes, how long do 1 -> 3
+FAIL | reason | Solve for x: 2(x - 3) + 4 = 3x - 7. Number only. -> 5
+PASS | reason | A cube has surface area 150 cm^2. What is its volume in  -> 125
+FAIL | reason | I start with $100. I lose 20%, then gain 20% of the new  -> $96.00
+FAIL | reason | What is the sum of all integers from 1 to 100 that are d -> 735
+FAIL | reason | A recipe for 4 people needs 300 g flour. I cook for 7 pe -> 525
+PASS | reason | Two trains 300 km apart approach each other at 60 km/h a -> 2
+FAIL | reason | What is the remainder when 7^100 is divided by 5? Number -> 1
+PASS | reason | A right triangle has legs 9 and 12. What is the length o -> 15
+FAIL | reason | If x + y = 12 and xy = 35, what is x^2 + y^2? Number onl -> 74
+
+REASONING: 12/24
+PASS | code   | run_length_encode 
+PASS | code   | balanced 
+PASS | code   | merge_intervals 
+PASS | code   | roman_to_int 
+PASS | code   | word_frequencies 
+PASS | code   | spiral 
+PASS | code   | longest_common_prefix 
+PASS | code   | base_convert 
+
+CODE: 8/8
+
+COMBINED: 20/32
+saved -> /home/emeazzo/dev/qwen3.8/results/cap-Q-radixark-nvfp4.json
+=================== DONE Q-radixark-nvfp4 ===================
+=================== EXPERIMENT Q-lued-int8 ===================
+>>> qwen38: model=lued/Qwen3.8-27B-INT8-W8A16-MTP spec=3 memutil=0.90 seqs=16 batch=8192 ctx=262144 cpuset=5-9,15-19
+>>> extra: none
+980916c2f9374e71146da62a80a881a8d4f391eee33799502a04bfb7d6f6ffc7
+--- server up (boot ok) ---
+[code] net=18.94 tok/s  vis=18.94  ttft=0.357s  e2e=18.76 tok/s  (3 reps)
+[essay] net=12.72 tok/s  vis=12.72  ttft=0.385s  e2e=12.62 tok/s  (3 reps)
+[chat] net=14.8 tok/s  vis=14.8  ttft=0.381s  e2e=14.15 tok/s  (3 reps)
+[mtp] acceptance={'accepted_over_draft': 0.5982, 'accepted': 2918, 'drafted': 4878}
+saved -> /home/emeazzo/dev/qwen3.8/results/Q-lued-int8.json
+PASS | What is 17 * 23? -> To calculate $17 \times 23$, we can break it down using the 
+PASS | What is 1024 + 640? -> To calculate the sum of 1024 and 640, we can add the numbers
+PASS | What is the capital of Australia? Answer with the  -> Canberra
+PASS | How many strings does a standard guitar have? One  -> 6
+PASS | What is the square root of 144? -> The square root of 144 is **12**.  **Step-by-step derivation
+PASS | If a train travels 60 km in 45 minutes, what is it -> 80
+PASS | What year did the Berlin Wall fall? Year only. -> 1989
+PASS | Name the largest planet in our solar system. One w -> Jupiter
+PASS | What is 15% of 200? Number only. -> 30
+PASS | In Python, what does len([1,2,3]) return? Number o -> 3
+PASS | What is the next prime after 13? Number only. -> 17
+PASS | Spell the chemical symbol for gold. Two letters. -> The chemical symbol for gold is **Au**.  It comes from the L
+
+SCORE: 12/12
+[prose   ] probes= 14 coverage=0.929 ppl(covered)=3.0006
+[code    ] probes= 21 coverage=1.000 ppl(covered)=1.4376
+[math    ] probes= 23 coverage=1.000 ppl(covered)=1.6051
+[chinese ] probes= 11 coverage=0.909 ppl(covered)=6.9552
+
+PPL geomean (covered positions): 2.6343
+saved -> /home/emeazzo/dev/qwen3.8/results/fid-Q-lued-int8.json
+PASS | reason | A train leaves at 09:40 and the trip takes 3 hours 55 mi -> 14:00
+PASS | reason | A shop sells pens at 3 for $4.50. I buy 14 pens. Individ -> $3.60
+PASS | reason | Start with 128. Halve it three times, then add 17, then  -> 132
+FAIL | reason | A rectangle has perimeter 46 cm and its length is 5 cm m -> 126
+PASS | reason | If today is Wednesday, what day of the week is it 100 da -> Friday
+PASS | reason | A tank holds 240 litres. It is 5/8 full. I remove 45 lit -> 9/16
+FAIL | reason | Three consecutive even integers sum to 138. What is the  -> 48
+PASS | reason | I have 5 red, 3 blue and 2 green marbles. I draw two wit -> 2/9
+FAIL | reason | A car travels 150 km at 75 km/h, then 90 km at 45 km/h.  -> 60
+FAIL | reason | What is 15% of 15% of 8000? Number only. -> 180
+PASS | reason | A number increased by 30% is 260. What was the original  -> 200
+PASS | reason | In a class of 30, 18 play football, 15 play tennis, and  -> 4
+FAIL | reason | The sequence goes 2, 6, 12, 20, 30, ... What is the 8th  -> 72
+PASS | reason | A book costs $24 after a 20% discount. What was the orig -> 30
+PASS | reason | If 3 machines make 3 widgets in 3 minutes, how long do 1 -> 3
+FAIL | reason | Solve for x: 2(x - 3) + 4 = 3x - 7. Number only. -> 5
+PASS | reason | A cube has surface area 150 cm^2. What is its volume in  -> 125
+PASS | reason | I start with $100. I lose 20%, then gain 20% of the new  -> $96.00
+FAIL | reason | What is the sum of all integers from 1 to 100 that are d -> 735
+PASS | reason | A recipe for 4 people needs 300 g flour. I cook for 7 pe -> 525
+FAIL | reason | Two trains 300 km apart approach each other at 60 km/h a -> 2
+FAIL | reason | What is the remainder when 7^100 is divided by 5? Number -> 1
+PASS | reason | A right triangle has legs 9 and 12. What is the length o -> 15
+FAIL | reason | If x + y = 12 and xy = 35, what is x^2 + y^2? Number onl -> 74
+
+REASONING: 14/24
+PASS | code   | run_length_encode 
+PASS | code   | balanced 
+PASS | code   | merge_intervals 
+PASS | code   | roman_to_int 
+PASS | code   | word_frequencies 
+PASS | code   | spiral 
+PASS | code   | longest_common_prefix 
+PASS | code   | base_convert 
+
+CODE: 8/8
+
+COMBINED: 22/32
+saved -> /home/emeazzo/dev/qwen3.8/results/cap-Q-lued-int8.json
+=================== DONE Q-lued-int8 ===================
+=================== EXPERIMENT Q-philbert-awq ===================
+>>> qwen38: model=philbert440/Qwen3.8-27B-W4A16-AWQ spec=3 memutil=0.90 seqs=16 batch=8192 ctx=262144 cpuset=5-9,15-19
+>>> extra: none
+2e3ceaa3196914a173d0bb9bfcccc398de575187fe003343fe97339df1ad79ab
+=================== EXPERIMENT V2-mtp3-ladder ===================
+>>> qwen38: model=unsloth/Qwen3.8-27B-NVFP4 spec=3 memutil=0.90 seqs=16 batch=8192 ctx=262144 cpuset=5-9,15-19
+>>> extra: none
+f176b9a65dd6a97828afc1426218ee89f060ddbe15a19ea3761eca3abf0189c2
+--- server up (boot ok) ---
+[code] net=28.36 tok/s  vis=28.36  ttft=0.283s  e2e=28.05 tok/s  (3 reps)
+[essay] net=19.5 tok/s  vis=19.5  ttft=0.278s  e2e=19.33 tok/s  (3 reps)
+[chat] net=22.87 tok/s  vis=22.87  ttft=0.295s  e2e=21.46 tok/s  (3 reps)
+[mtp] acceptance={'accepted_over_draft': 0.6159, 'accepted': 2923, 'drafted': 4746}
+saved -> /home/emeazzo/dev/qwen3.8/results/V2-mtp3-ladder.json
+[essay] net=19.21 tok/s  vis=19.21  ttft=0.263s  e2e=19.07 tok/s  (1 reps)
+[mtp] acceptance={'accepted_over_draft': 0.5918, 'accepted': 3343, 'drafted': 5649}
+[ladder] {'streams': 1, 'errors': 0, 'wall_s': 36.61, 'aggregate_tok_s': 18.7, 'per_stream_tok_s': 18.8, 'ttft_med_s': 0.266, 'ttft_max_s': 0.266}
+[ladder] {'streams': 2, 'errors': 0, 'wall_s': 41.17, 'aggregate_tok_s': 34.0, 'per_stream_tok_s': 18.1, 'ttft_med_s': 2.265, 'ttft_max_s': 4.092}
+[ladder] {'streams': 4, 'errors': 0, 'wall_s': 40.37, 'aggregate_tok_s': 68.5, 'per_stream_tok_s': 17.9, 'ttft_med_s': 0.5, 'ttft_max_s': 0.502}
+[ladder] {'streams': 8, 'errors': 0, 'wall_s': 46.18, 'aggregate_tok_s': 120.5, 'per_stream_tok_s': 15.7, 'ttft_med_s': 0.561, 'ttft_max_s': 0.562}
+saved -> /home/emeazzo/dev/qwen3.8/results/V2-mtp3-ladder-ladder.json
+PASS | What is 17 * 23? -> To calculate $17 \times 23$, you can break it down using the
+PASS | What is 1024 + 640? -> To calculate the sum of 1024 and 640, we can add the numbers
+PASS | What is the capital of Australia? Answer with the  -> Canberra
+PASS | How many strings does a standard guitar have? One  -> 6
+PASS | What is the square root of 144? -> The square root of 144 is **12**.  **Step-by-step deduction:
+PASS | If a train travels 60 km in 45 minutes, what is it -> 80
+PASS | What year did the Berlin Wall fall? Year only. -> 1989
+PASS | Name the largest planet in our solar system. One w -> Jupiter
+PASS | What is 15% of 200? Number only. -> 30
+PASS | In Python, what does len([1,2,3]) return? Number o -> 3
+PASS | What is the next prime after 13? Number only. -> 17
+PASS | Spell the chemical symbol for gold. Two letters. -> Au
+
+SCORE: 12/12
+[prose   ] probes= 14 coverage=0.929 ppl(covered)=3.1758
+[code    ] probes= 21 coverage=1.000 ppl(covered)=1.4043
+[math    ] probes= 23 coverage=1.000 ppl(covered)=1.5847
+[chinese ] probes= 11 coverage=1.000 ppl(covered)=12.6639
+
+PPL geomean (covered positions): 3.0758
+saved -> /home/emeazzo/dev/qwen3.8/results/fid-V2-mtp3-ladder.json
+=================== DONE V2-mtp3-ladder ===================
+=================== EXPERIMENT V1-mtp3-ladder ===================
+>>> qwen38: model=unsloth/Qwen3.8-27B-NVFP4 spec=3 memutil=0.90 seqs=16 batch=8192 ctx=262144 cpuset=5-9,15-19
+>>> extra: none
+8ec6225bc3905b9039d32db510c5791324a5c958ee74d6ed1f406e9f08d35fa6
+--- server up (boot ok) ---
+[code] net=28.05 tok/s  vis=28.05  ttft=0.272s  e2e=27.74 tok/s  (3 reps)
+[essay] net=19.06 tok/s  vis=19.06  ttft=0.277s  e2e=18.91 tok/s  (3 reps)
+[chat] net=22.09 tok/s  vis=22.09  ttft=0.282s  e2e=21.06 tok/s  (3 reps)
+[mtp] acceptance={'accepted_over_draft': 0.5999, 'accepted': 2937, 'drafted': 4896}
+saved -> /home/emeazzo/dev/qwen3.8/results/V1-mtp3-ladder.json
+[essay] net=17.97 tok/s  vis=17.97  ttft=0.263s  e2e=17.85 tok/s  (1 reps)
+[mtp] acceptance={'accepted_over_draft': 0.5688, 'accepted': 3338, 'drafted': 5868}
+[ladder] {'streams': 1, 'errors': 0, 'wall_s': 35.96, 'aggregate_tok_s': 19.5, 'per_stream_tok_s': 19.6, 'ttft_med_s': 0.256, 'ttft_max_s': 0.256}
+[ladder] {'streams': 2, 'errors': 0, 'wall_s': 39.46, 'aggregate_tok_s': 35.5, 'per_stream_tok_s': 18.8, 'ttft_med_s': 0.658, 'ttft_max_s': 0.805}
+[ladder] {'streams': 4, 'errors': 0, 'wall_s': 40.38, 'aggregate_tok_s': 69.3, 'per_stream_tok_s': 17.6, 'ttft_med_s': 0.338, 'ttft_max_s': 0.339}
+[ladder] {'streams': 8, 'errors': 0, 'wall_s': 46.94, 'aggregate_tok_s': 119.1, 'per_stream_tok_s': 15.7, 'ttft_med_s': 0.567, 'ttft_max_s': 0.569}
+saved -> /home/emeazzo/dev/qwen3.8/results/V1-mtp3-ladder-ladder.json
+PASS | What is 17 * 23? -> To calculate $17 \times 23$, you can use standard multiplica
+PASS | What is 1024 + 640? -> To calculate the sum of 1024 and 640, we can add the numbers
+PASS | What is the capital of Australia? Answer with the  -> Canberra
+PASS | How many strings does a standard guitar have? One  -> 6
+PASS | What is the square root of 144? -> The square root of 144 is **12**.  **Reasoning:** To find th
+PASS | If a train travels 60 km in 45 minutes, what is it -> 80
+PASS | What year did the Berlin Wall fall? Year only. -> 1989
+PASS | Name the largest planet in our solar system. One w -> Jupiter
+PASS | What is 15% of 200? Number only. -> 30
+PASS | In Python, what does len([1,2,3]) return? Number o -> 3
+PASS | What is the next prime after 13? Number only. -> 17
+PASS | Spell the chemical symbol for gold. Two letters. -> Au
+
+SCORE: 12/12
+[prose   ] probes= 14 coverage=0.929 ppl(covered)=3.1134
+[code    ] probes= 21 coverage=1.000 ppl(covered)=1.4066
+[math    ] probes= 23 coverage=1.000 ppl(covered)=1.5902
+[chinese ] probes= 11 coverage=1.000 ppl(covered)=9.8471
+
+PPL geomean (covered positions): 2.8777
+saved -> /home/emeazzo/dev/qwen3.8/results/fid-V1-mtp3-ladder.json
+=================== DONE V1-mtp3-ladder ===================
+CONTROL RUNS DONE
+=================== EXPERIMENT Q-philbert-awq ===================
+>>> qwen38: model=philbert440/Qwen3.8-27B-W4A16-AWQ spec=3 memutil=0.90 seqs=16 batch=8192 ctx=262144 cpuset=5-9,15-19
+>>> extra: none
+706fe8c3cdd91c974c71745a5bdca5218f279d64af5b6964c27da369a29e9118
+--- server up (boot ok) ---
+[code] net=25.72 tok/s  vis=25.72  ttft=0.285s  e2e=25.45 tok/s  (3 reps)
+[essay] net=17.81 tok/s  vis=17.81  ttft=0.318s  e2e=17.69 tok/s  (3 reps)
+[chat] net=21.75 tok/s  vis=21.75  ttft=0.28s  e2e=20.65 tok/s  (3 reps)
+[mtp] acceptance={'accepted_over_draft': 0.6057, 'accepted': 2951, 'drafted': 4872}
+saved -> /home/emeazzo/dev/qwen3.8/results/Q-philbert-awq.json
+PASS | What is 17 * 23? -> To calculate $17 \times 23$, we can break it down using the 
+PASS | What is 1024 + 640? -> To calculate the sum of 1024 and 640, we can add the numbers
+PASS | What is the capital of Australia? Answer with the  -> Canberra
+PASS | How many strings does a standard guitar have? One  -> 6
+PASS | What is the square root of 144? -> The square root of 144 is **12**.  **Step-by-step derivation
+PASS | If a train travels 60 km in 45 minutes, what is it -> 80
+PASS | What year did the Berlin Wall fall? Year only. -> 1989
+PASS | Name the largest planet in our solar system. One w -> Jupiter
+PASS | What is 15% of 200? Number only. -> 30
+PASS | In Python, what does len([1,2,3]) return? Number o -> 3
+PASS | What is the next prime after 13? Number only. -> 17
+PASS | Spell the chemical symbol for gold. Two letters. -> Au
+
+SCORE: 12/12
+[prose   ] probes= 14 coverage=0.929 ppl(covered)=3.1993
+[code    ] probes= 21 coverage=1.000 ppl(covered)=1.3628
+[math    ] probes= 23 coverage=1.000 ppl(covered)=1.6099
+[chinese ] probes= 11 coverage=1.000 ppl(covered)=9.6773
+
+PPL geomean (covered positions): 2.8708
+saved -> /home/emeazzo/dev/qwen3.8/results/fid-Q-philbert-awq.json
+PASS | reason | A train leaves at 09:40 and the trip takes 3 hours 55 mi -> 14:00
+PASS | reason | A shop sells pens at 3 for $4.50. I buy 14 pens. Individ -> $3.60
+PASS | reason | Start with 128. Halve it three times, then add 17, then  -> 132
+FAIL | reason | A rectangle has perimeter 46 cm and its length is 5 cm m -> 126
+PASS | reason | If today is Wednesday, what day of the week is it 100 da -> Friday
+PASS | reason | A tank holds 240 litres. It is 5/8 full. I remove 45 lit -> 9/16
+PASS | reason | Three consecutive even integers sum to 138. What is the  -> 48
+PASS | reason | I have 5 red, 3 blue and 2 green marbles. I draw two wit -> 2/9
+FAIL | reason | A car travels 150 km at 75 km/h, then 90 km at 45 km/h.  -> 60
+FAIL | reason | What is 15% of 15% of 8000? Number only. -> 180
+PASS | reason | A number increased by 30% is 260. What was the original  -> 200
+PASS | reason | In a class of 30, 18 play football, 15 play tennis, and  -> 4
+FAIL | reason | The sequence goes 2, 6, 12, 20, 30, ... What is the 8th  -> 72
+PASS | reason | A book costs $24 after a 20% discount. What was the orig -> 30
+PASS | reason | If 3 machines make 3 widgets in 3 minutes, how long do 1 -> 3
+FAIL | reason | Solve for x: 2(x - 3) + 4 = 3x - 7. Number only. -> 5
+PASS | reason | A cube has surface area 150 cm^2. What is its volume in  -> 125
+PASS | reason | I start with $100. I lose 20%, then gain 20% of the new  -> $96.00
+FAIL | reason | What is the sum of all integers from 1 to 100 that are d -> 735
+PASS | reason | A recipe for 4 people needs 300 g flour. I cook for 7 pe -> 525
+FAIL | reason | Two trains 300 km apart approach each other at 60 km/h a -> 2
+FAIL | reason | What is the remainder when 7^100 is divided by 5? Number -> 1
+PASS | reason | A right triangle has legs 9 and 12. What is the length o -> 15
+FAIL | reason | If x + y = 12 and xy = 35, what is x^2 + y^2? Number onl -> 74
+
+REASONING: 15/24
+PASS | code   | run_length_encode 
+PASS | code   | balanced 
+PASS | code   | merge_intervals 
+PASS | code   | roman_to_int 
+PASS | code   | word_frequencies 
+PASS | code   | spiral 
+PASS | code   | longest_common_prefix 
+PASS | code   | base_convert 
+
+CODE: 8/8
+
+COMBINED: 23/32
+saved -> /home/emeazzo/dev/qwen3.8/results/cap-Q-philbert-awq.json
+=================== DONE Q-philbert-awq ===================
+QUANT SWEEP COMPLETE
