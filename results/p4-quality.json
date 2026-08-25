@@ -1,0 +1,78 @@
+{
+  "score": 0,
+  "total": 12,
+  "details": [
+    {
+      "q": "What is 17 * 23?",
+      "want": "391",
+      "got": "ERROR HTTP Error 500: Internal Server Error",
+      "ok": false
+    },
+    {
+      "q": "What is 1024 + 640?",
+      "want": "1664",
+      "got": "ERROR HTTP Error 500: Internal Server Error",
+      "ok": false
+    },
+    {
+      "q": "What is the capital of Australia? Answer with the city name only.",
+      "want": "Canberra",
+      "got": "ERROR HTTP Error 500: Internal Server Error",
+      "ok": false
+    },
+    {
+      "q": "How many strings does a standard guitar have? One number only.",
+      "want": "6",
+      "got": "ERROR HTTP Error 500: Internal Server Error",
+      "ok": false
+    },
+    {
+      "q": "What is the square root of 144?",
+      "want": "12",
+      "got": "ERROR HTTP Error 500: Internal Server Error",
+      "ok": false
+    },
+    {
+      "q": "If a train travels 60 km in 45 minutes, what is its speed in km/h? Number only.",
+      "want": "80",
+      "got": "ERROR HTTP Error 500: Internal Server Error",
+      "ok": false
+    },
+    {
+      "q": "What year did the Berlin Wall fall? Year only.",
+      "want": "1989",
+      "got": "ERROR HTTP Error 500: Internal Server Error",
+      "ok": false
+    },
+    {
+      "q": "Name the largest planet in our solar system. One word.",
+      "want": "Jupiter",
+      "got": "ERROR HTTP Error 500: Internal Server Error",
+      "ok": false
+    },
+    {
+      "q": "What is 15% of 200? Number only.",
+      "want": "30",
+      "got": "ERROR HTTP Error 500: Internal Server Error",
+      "ok": false
+    },
+    {
+      "q": "In Python, what does len([1,2,3]) return? Number only.",
+      "want": "3",
+      "got": "ERROR HTTP Error 500: Internal Server Error",
+      "ok": false
+    },
+    {
+      "q": "What is the next prime after 13? Number only.",
+      "want": "17",
+      "got": "ERROR HTTP Error 500: Internal Server Error",
+      "ok": false
+    },
+    {
+      "q": "Spell the chemical symbol for gold. Two letters.",
+      "want": "Au",
+      "got": "ERROR HTTP Error 500: Internal Server Error",
+      "ok": false
+    }
+  ]
+}

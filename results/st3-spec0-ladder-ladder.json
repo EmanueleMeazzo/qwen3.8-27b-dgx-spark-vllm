@@ -1,0 +1,83 @@
+{
+  "tag": "st3-spec0-ladder-ladder",
+  "port": 8000,
+  "timestamp": "2026-08-25 03:03:52",
+  "sampling": {
+    "temperature": null,
+    "top_p": null
+  },
+  "probes": {
+    "essay": {
+      "median": {
+        "ttft_s": 0.202,
+        "total_s": 62.546,
+        "decode_s": 62.344,
+        "completion_tokens": 700,
+        "reasoning_tokens": 0,
+        "net_decode_tok_s": 11.23,
+        "visible_decode_tok_s": 11.23,
+        "e2e_tok_s": 11.19
+      },
+      "runs": [
+        {
+          "ttft_s": 0.202,
+          "total_s": 62.546,
+          "decode_s": 62.344,
+          "completion_tokens": 700,
+          "reasoning_tokens": 0,
+          "net_decode_tok_s": 11.23,
+          "visible_decode_tok_s": 11.23,
+          "e2e_tok_s": 11.19
+        }
+      ]
+    }
+  },
+  "mtp": null,
+  "ladder": [
+    {
+      "streams": 1,
+      "errors": 0,
+      "wall_s": 62.45,
+      "aggregate_tok_s": 11.2,
+      "per_stream_tok_s": 11.2,
+      "ttft_med_s": 0.123,
+      "ttft_max_s": 0.123
+    },
+    {
+      "streams": 2,
+      "errors": 0,
+      "wall_s": 64.68,
+      "aggregate_tok_s": 21.6,
+      "per_stream_tok_s": 10.9,
+      "ttft_med_s": 0.212,
+      "ttft_max_s": 0.212
+    },
+    {
+      "streams": 4,
+      "errors": 0,
+      "wall_s": 66.97,
+      "aggregate_tok_s": 41.1,
+      "per_stream_tok_s": 10.5,
+      "ttft_med_s": 0.408,
+      "ttft_max_s": 0.436
+    },
+    {
+      "streams": 8,
+      "errors": 0,
+      "wall_s": 70.2,
+      "aggregate_tok_s": 79.6,
+      "per_stream_tok_s": 10.0,
+      "ttft_med_s": 0.359,
+      "ttft_max_s": 0.362
+    },
+    {
+      "streams": 16,
+      "errors": 0,
+      "wall_s": 87.36,
+      "aggregate_tok_s": 127.4,
+      "per_stream_tok_s": 8.1,
+      "ttft_med_s": 0.546,
+      "ttft_max_s": 0.548
+    }
+  ]
+}

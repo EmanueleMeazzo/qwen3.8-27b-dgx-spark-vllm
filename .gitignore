@@ -1,0 +1,12 @@
+# Model weights, HF hub cache, vLLM torch.compile cache (~83 GB)
+hf-cache/
+
+# Third-party research snapshots (saved docs pages, vendored vLLM source).
+# See research/SOURCES.md for what was consulted.
+research/*
+!research/SOURCES.md
+
+# Python
+__pycache__/
+*.pyc
+.venv/
