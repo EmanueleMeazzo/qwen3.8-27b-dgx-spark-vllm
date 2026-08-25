@@ -10,3 +10,9 @@ research/*
 __pycache__/
 *.pyc
 .venv/
+
+# Transient run state (container ids, download/eval console logs). The validated
+# server log itself is committed on purpose.
+logs/*.container
+logs/fetch.log
+logs/cap-*.log

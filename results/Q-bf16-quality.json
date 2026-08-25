@@ -1,0 +1,78 @@
+{
+  "score": 12,
+  "total": 12,
+  "details": [
+    {
+      "q": "What is 17 * 23?",
+      "want": "391",
+      "got": "To calculate $17 \\times 23$, we can break it down using the distributive property:\n\n$$\n17 \\times 23 = 17 \\times (20 + 3)",
+      "ok": true
+    },
+    {
+      "q": "What is 1024 + 640?",
+      "want": "1664",
+      "got": "To calculate the sum of 1024 and 640, we can add the numbers column by column:\n\n$$\n\\begin{array}{r}\n  1024 \\\\\n+  640 \\\\\n",
+      "ok": true
+    },
+    {
+      "q": "What is the capital of Australia? Answer with the city name only.",
+      "want": "Canberra",
+      "got": "Canberra",
+      "ok": true
+    },
+    {
+      "q": "How many strings does a standard guitar have? One number only.",
+      "want": "6",
+      "got": "6",
+      "ok": true
+    },
+    {
+      "q": "What is the square root of 144?",
+      "want": "12",
+      "got": "The square root of 144 is **12**.\n\n**Step-by-step deduction:**\n1.  The square root of a number $x$ is a value that, when",
+      "ok": true
+    },
+    {
+      "q": "If a train travels 60 km in 45 minutes, what is its speed in km/h? Number only.",
+      "want": "80",
+      "got": "80",
+      "ok": true
+    },
+    {
+      "q": "What year did the Berlin Wall fall? Year only.",
+      "want": "1989",
+      "got": "1989",
+      "ok": true
+    },
+    {
+      "q": "Name the largest planet in our solar system. One word.",
+      "want": "Jupiter",
+      "got": "Jupiter",
+      "ok": true
+    },
+    {
+      "q": "What is 15% of 200? Number only.",
+      "want": "30",
+      "got": "30",
+      "ok": true
+    },
+    {
+      "q": "In Python, what does len([1,2,3]) return? Number only.",
+      "want": "3",
+      "got": "3",
+      "ok": true
+    },
+    {
+      "q": "What is the next prime after 13? Number only.",
+      "want": "17",
+      "got": "17",
+      "ok": true
+    },
+    {
+      "q": "Spell the chemical symbol for gold. Two letters.",
+      "want": "Au",
+      "got": "Au",
+      "ok": true
+    }
+  ]
+}

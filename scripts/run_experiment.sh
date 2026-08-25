@@ -33,6 +33,17 @@ if [ -n "${LADDER:-}" ]; then
 fi
 python3 "$ROOT/scripts/quality.py" --port "$PORT" --out "$ROOT/results/$TAG-quality.json" || true
 
+# Quant-comparison evals. quality.py above saturates at 12/12 for every checkpoint that
+# boots at all, so it only proves "not broken"; these two are what actually rank them.
+case "${EVALS:-fidelity,capability}" in
+  *fidelity*) python3 "$ROOT/scripts/fidelity.py" --port "$PORT" --tag "$TAG" \
+                --out "$ROOT/results/fid-$TAG.json" || true ;;
+esac
+case "${EVALS:-fidelity,capability}" in
+  *capability*) python3 -u "$ROOT/scripts/capability.py" --port "$PORT" --tag "$TAG" \
+                  --out "$ROOT/results/cap-$TAG.json" || true ;;
+esac
+
 bash "$ROOT/scripts/stop.sh" "$NAME" >/dev/null
 sleep 5
 echo "=================== DONE $TAG ==================="

@@ -1,0 +1,203 @@
+{
+  "tag": "Q-bf16",
+  "reasoning": {
+    "score": 14,
+    "total": 24,
+    "details": [
+      {
+        "q": "A train leaves at 09:40 and the trip takes 3 hours 55 minutes. There i",
+        "want": "14:00",
+        "got": " become 00.\n*   Add 1 hour to the hour count: $13 + 1 = 14$.\n\n**4. Final Result:**\nThe time is 14:00.\n\n**Answer:**\n14:00",
+        "ok": true
+      },
+      {
+        "q": "A shop sells pens at 3 for $4.50. I buy 14 pens. Individually they cos",
+        "want": "$3.60",
+        "got": " \\text{Cost}_{\\text{packs}} $$\n$$ \\text{Savings} = \\$25.20 - \\$21.60 $$\n$$ \\text{Savings} = \\$3.60 $$\n\n**Answer:**\n$3.60",
+        "ok": true
+      },
+      {
+        "q": "Start with 128. Halve it three times, then add 17, then multiply by 4.",
+        "want": "132",
+        "got": " = 16$\n3.  **Add 17:**\n    *   $16 + 17 = 33$\n4.  **Multiply by 4:**\n    *   $33 \\times 4 = 132$\n\nThe result is **132**.",
+        "ok": true
+      },
+      {
+        "q": "A rectangle has perimeter 46 cm and its length is 5 cm more than its w",
+        "want": "126",
+        "got": "252",
+        "ok": false
+      },
+      {
+        "q": "If today is Wednesday, what day of the week is it 100 days from now?",
+        "want": "Friday",
+        "got": "*   1 day from now: **Thursday**\n*   2 days from now: **Friday**\n\n### Conclusion\n100 days from now will be a **Friday**.",
+        "ok": true
+      },
+      {
+        "q": "A tank holds 240 litres. It is 5/8 full. I remove 45 litres, then add ",
+        "want": "9/16",
+        "got": "se 9 ($3^2$) and 16 ($2^4$) share no common factors.\n\n**Answer:**\nThe fraction of the tank that is now full is **9/16**.",
+        "ok": true
+      },
+      {
+        "q": "Three consecutive even integers sum to 138. What is the largest one? N",
+        "want": "48",
+        "got": "92",
+        "ok": false
+      },
+      {
+        "q": "I have 5 red, 3 blue and 2 green marbles. I draw two without replaceme",
+        "want": "2/9",
+        "got": "ch is 2:\n$$\\frac{4 \\div 2}{18 \\div 2} = \\frac{2}{9}$$\n\n**Answer:**\nThe probability that both marbles are red is **2/9**.",
+        "ok": true
+      },
+      {
+        "q": "A car travels 150 km at 75 km/h, then 90 km at 45 km/h. What is the av",
+        "want": "60",
+        "got": "37.5",
+        "ok": false
+      },
+      {
+        "q": "What is 15% of 15% of 8000? Number only.",
+        "want": "180",
+        "got": "18",
+        "ok": false
+      },
+      {
+        "q": "A number increased by 30% is 260. What was the original number? Number",
+        "want": "200",
+        "got": "200",
+        "ok": true
+      },
+      {
+        "q": "In a class of 30, 18 play football, 15 play tennis, and 7 play both. H",
+        "want": "4",
+        "got": "14",
+        "ok": true
+      },
+      {
+        "q": "The sequence goes 2, 6, 12, 20, 30, ... What is the 8th term? Number o",
+        "want": "72",
+        "got": "56",
+        "ok": false
+      },
+      {
+        "q": "A book costs $24 after a 20% discount. What was the original price in ",
+        "want": "30",
+        "got": "30",
+        "ok": true
+      },
+      {
+        "q": "If 3 machines make 3 widgets in 3 minutes, how long do 100 machines ta",
+        "want": "3",
+        "got": "3",
+        "ok": true
+      },
+      {
+        "q": "Solve for x: 2(x - 3) + 4 = 3x - 7. Number only.",
+        "want": "5",
+        "got": "13",
+        "ok": false
+      },
+      {
+        "q": "A cube has surface area 150 cm^2. What is its volume in cubic centimet",
+        "want": "125",
+        "got": "125",
+        "ok": true
+      },
+      {
+        "q": "I start with $100. I lose 20%, then gain 20% of the new amount. How mu",
+        "want": "$96.00",
+        "got": "$96.00",
+        "ok": true
+      },
+      {
+        "q": "What is the sum of all integers from 1 to 100 that are divisible by 7?",
+        "want": "735",
+        "got": "1015",
+        "ok": false
+      },
+      {
+        "q": "A recipe for 4 people needs 300 g flour. I cook for 7 people. How many",
+        "want": "525",
+        "got": "525",
+        "ok": true
+      },
+      {
+        "q": "Two trains 300 km apart approach each other at 60 km/h and 90 km/h. Af",
+        "want": "2",
+        "got": "3",
+        "ok": false
+      },
+      {
+        "q": "What is the remainder when 7^100 is divided by 5? Number only.",
+        "want": "1",
+        "got": "2",
+        "ok": false
+      },
+      {
+        "q": "A right triangle has legs 9 and 12. What is the length of the hypotenu",
+        "want": "15",
+        "got": "15",
+        "ok": true
+      },
+      {
+        "q": "If x + y = 12 and xy = 35, what is x^2 + y^2? Number only.",
+        "want": "74",
+        "got": "119",
+        "ok": false
+      }
+    ]
+  },
+  "code": {
+    "score": 8,
+    "total": 8,
+    "details": [
+      {
+        "fn": "run_length_encode",
+        "ok": true,
+        "err": ""
+      },
+      {
+        "fn": "balanced",
+        "ok": true,
+        "err": ""
+      },
+      {
+        "fn": "merge_intervals",
+        "ok": true,
+        "err": ""
+      },
+      {
+        "fn": "roman_to_int",
+        "ok": true,
+        "err": ""
+      },
+      {
+        "fn": "word_frequencies",
+        "ok": true,
+        "err": ""
+      },
+      {
+        "fn": "spiral",
+        "ok": true,
+        "err": ""
+      },
+      {
+        "fn": "longest_common_prefix",
+        "ok": true,
+        "err": ""
+      },
+      {
+        "fn": "base_convert",
+        "ok": true,
+        "err": ""
+      }
+    ]
+  },
+  "combined": {
+    "score": 22,
+    "total": 32
+  }
+}

@@ -188,9 +188,12 @@ def main():
     if not wait_server(args.port):
         print("server never became ready", file=sys.stderr); sys.exit(1)
 
-    for p in args.probes.split(","):
-        pr = PROBES[p]
-        stream_chat(args.port, "Warm up with one short sentence about GPUs.", 32, thinking=args.thinking) if args.warmup else None
+    # One short warm-up per probe, so the first timed run never pays cold-path cost.
+    # Deliberately NOT the probe's own prompt: prefix caching is off for this hybrid
+    # arch, so a warm-up on the real prompt would buy nothing and only add drift.
+    for _ in range(args.warmup * len(args.probes.split(","))):
+        stream_chat(args.port, "Warm up with one short sentence about GPUs.", 32,
+                    thinking=args.thinking)
 
     results = {"tag": args.tag, "port": args.port, "timestamp": time.strftime("%F %T"),
                "sampling": {"temperature": args.temperature, "top_p": args.top_p}, "probes": {}}
