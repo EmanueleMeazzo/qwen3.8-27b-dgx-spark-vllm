@@ -16,3 +16,6 @@ __pycache__/
 logs/*.container
 logs/fetch.log
 logs/cap-*.log
+
+# docker pull console log
+logs/pull-upstream.log

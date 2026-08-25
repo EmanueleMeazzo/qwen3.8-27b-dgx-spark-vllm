@@ -19,14 +19,18 @@ MAX_BATCHED_TOKENS="${MAX_BATCHED_TOKENS:-8192}"
 CPUSET="${CPUSET:-5-9,15-19}"                   # GB10 big.LITTLE: X925 cores only; empty disables
 YARN="${YARN:-0}"                               # 1 => rope YaRN override for CTX>262144
 EXTRA_ARGS="${EXTRA_ARGS:-}"
+# NGC images have no ENTRYPOINT, so the command must start with "vllm serve".
+# Upstream vllm/vllm-openai sets ENTRYPOINT ["vllm","serve"], so it must not.
+CMD_PREFIX="${CMD_PREFIX-vllm serve}"
 
 CONTAINER="vllm-$NAME"
 LOG="$ROOT/logs/$NAME-server.log"
 
 # ---- compose server args ---------------------------------------------------
-ARGS=(
-  vllm
-  serve "$MODEL"
+# shellcheck disable=SC2206
+ARGS=($CMD_PREFIX)
+ARGS+=(
+  "$MODEL"
   --served-model-name qwen3.8-27b
   --port "$PORT"
   --max-model-len "$CTX"

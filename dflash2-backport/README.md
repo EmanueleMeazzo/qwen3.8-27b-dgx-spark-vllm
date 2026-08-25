@@ -98,6 +98,10 @@ lossless and nothing downstream would flag it. Doing it properly means backporti
 this container does not have (`attn_vllm_config`, `_validate_local_argmax_reduction`,
 `set_eplb_state`, …) — a cascade, not a patch.
 
+> **Read this first:** DFlash2 works out of the box on upstream `vllm/vllm-openai:nightly`,
+> which runs fine on GB10 and is ~83% faster on code generation than the MTP config. This
+> directory is only useful if you are pinned to the NGC image. See the main README §4.
+
 **Conclusion: DFlash2 needs a vLLM newer than any container NVIDIA currently ships.**
 Keep the in-checkpoint MTP head as the drafter until NGC publishes an image built after
 2026-08-21. This directory is what to re-run when that image lands: point `BASE` at it,

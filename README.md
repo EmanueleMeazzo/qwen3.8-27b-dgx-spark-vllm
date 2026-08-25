@@ -53,10 +53,19 @@ Measured performance of this exact config (this box):
 | KV pool | 2.33M tokens (≈8.9× full-262K requests) |
 | Quality vs unquantized BF16 | 95.7% identical greedy choices; identical capability score |
 
-**Two documented alternatives** (§3): `RadixArk/Qwen3.8-27B-NVFP4` for ~+11% decode at a
-measurably larger drift from the unquantized model, and `lued/Qwen3.8-27B-INT8-W8A16-MTP` when
-you need BF16-identical output — it reproduces BF16's greedy choices exactly, at 1.53× BF16's
-speed.
+### Faster: upstream vLLM + the DFlash2 drafter
+
+The config above is the **NGC-supported** one. If you are not tied to NVIDIA's image, swapping
+to upstream `vllm/vllm-openai:nightly` and the DFlash2 block drafter is dramatically faster at
+equal quality — **51.4 tok/s on code (+83%), 30.0 on chat (+35%)** — see §4 for the exact
+command and the caveats (larger draft memory, smaller KV pool, single-stream only so far).
+DFlash2 does *not* work on the NGC image at all; that is a container limitation, not a
+hardware one.
+
+**Two documented checkpoint alternatives** (§3): `RadixArk/Qwen3.8-27B-NVFP4` for ~+11% decode
+at a measurably larger drift from the unquantized model, and `lued/Qwen3.8-27B-INT8-W8A16-MTP`
+when you need BF16-identical output — it reproduces BF16's greedy choices exactly, at 1.53×
+BF16's speed.
 
 ---
 
@@ -78,8 +87,30 @@ speed.
 | **`nvcr.io/nvidia/vllm:26.07-py3`** | ✅ vLLM 0.24.0-dev; has `Qwen3_5*`, `Qwen3_5MTP`, mtp/eagle/ngram/dflash spec methods |
 
 **26.07 is the newest tag NVIDIA publishes** — verified against the NGC registry tag list
-(`nvcr.io/v2/nvidia/vllm/tags/list`; nothing above 26.07 exists). Every "just upgrade the
-container" idea below is therefore closed until NVIDIA ships a newer image.
+(`nvcr.io/v2/nvidia/vllm/tags/list`; nothing above 26.07 exists).
+
+**But NGC is not the only option, and an earlier revision of this recipe was wrong to imply
+it was.** Upstream `vllm/vllm-openai` publishes arm64 images, and they run on this box:
+
+| | `nvcr.io/nvidia/vllm:26.07-py3` | `vllm/vllm-openai:nightly` |
+|---|---|---|
+| vLLM | 0.24.0+092c4842.dev (NVIDIA fork; commit not in public repo) | 0.26.1rc1.dev+ga9a17e709 |
+| torch / CUDA | 2.13.0a0 / 13.x | 2.13.0+cu130 / 13.0 |
+| compiled arch list | includes sm_121 | sm_80/90/100/110/**120** — no sm_121 |
+| DFlash2 drafter | ✗ absent | ✅ present and complete |
+| decode (unsloth NVFP4, MTP=3) | 28.0 / 19.2 / 22.2 | 28.3 / 19.9 / 21.7 |
+| MTP acceptance | 0.600 | 0.622 |
+| KV pool @ 0.90 | 2.33M tok | 2.25M tok |
+
+The missing sm_121 turns out not to matter: CUDA guarantees binary compatibility forward
+across minor revisions within a generation, so the sm_120 cubins execute on GB10, and
+FlashInfer autotunes all 21 `fp4_gemm` profiles rather than falling back — the NVFP4
+tensor-core path is fully live. Decode parity is within the ±5% run-to-run band.
+
+So the two images are interchangeable for the MTP configuration, and upstream is strictly
+ahead on features (see §4 — DFlash2 only works there). Prefer NGC if you need NVIDIA's
+support path or a build that actually targets sm_121; prefer upstream if you want current
+vLLM features.
 
 Docker basics that matter on Spark: `--gpus all --ipc=host --ulimit memlock=-1
 --ulimit stack=67108864 --shm-size 32g`.
@@ -271,26 +302,67 @@ your workload is single-stream code generation, `VLLM_USE_V2_MODEL_RUNNER=1` plu
 `num_speculative_tokens: 4` is now a safe configuration rather than a crashing one.
 
 
-### DFlash2: backported, does not work on 26.07
+### DFlash2: the fastest drafter here — but only on upstream vLLM
 
-`incoai/Qwen3.8-27B-DFlash2` is a block-diffusion drafter claiming better acceptance than MTP.
-The previous revision recorded it as "NGC 26.07 predates vllm#52816 — unsupported". That is
-half right, and the useful half is different: **the image already ships DFlash v1**; what it
-lacks is DFlash2's grouped convolutions and candidate selector. Upstream added those on
-2026-08-21, days after the image was cut, in **pure Python — no CUDA kernels**.
+`incoai/Qwen3.8-27B-DFlash2` is a block-diffusion drafter: it predicts a whole block of
+tokens per pass and a learned selector traces one coherent path through the candidates.
 
-`dflash2-backport/` applies that change to the installed package (builds in seconds). It gets
-further than expected — the registry resolves `DFlash2DraftModel`, target and draft both load,
-the candidate selector compiles, graph capture completes — and then faults in `propose()` with
-an illegal memory access.
+**On upstream `vllm/vllm-openai:nightly` it works out of the box and is by far the fastest
+configuration measured on this box:**
 
-The cause is a buffer-convention mismatch, not a missing feature: the container's DFlash v1
-speculator pads `sample_idx_mapping` with `0` and stores `sample_pos` un-incremented, while
-DFlash2's Triton kernels assume upstream's `-1` padding sentinel (`valid = req_state >= 0`
-*is* the padding test) and a pre-incremented `sample_pos`. Both are adaptable, and both were
-deliberately left alone: speculative decoding is supposed to be lossless, a guessed-at buffer
-convention would produce silently mis-sampled drafts, and nothing downstream would flag it.
-See `dflash2-backport/README.md`. Re-run it when NVIDIA ships an image built after 2026-08-21.
+| config | code | essay | chat |
+|---|---:|---:|---:|
+| NGC 26.07 + MTP=3 | 28.0 | 19.2 | 22.2 |
+| upstream + MTP=3 | 28.3 | 19.9 | 21.7 |
+| **upstream + DFlash2 (7 draft tokens)** | **51.4** | **22.3** | **30.0** |
+| gain over the MTP recommendation | **+83%** | **+16%** | **+35%** |
+
+The mechanism is *not* higher accuracy: DFlash2's per-draft-token acceptance is **lower** than
+MTP's (0.385 vs 0.622). It wins because it drafts 7 tokens per verification step instead of 3,
+so each expensive target forward pass emits ~3.7 tokens against MTP-3's ~2.9 — a 1.29×
+amortization measured across all three probes.
+
+That 1.29× does not by itself explain the 1.83× on code, and the aggregate counters cannot
+separate the probes. The most likely reading is that in-block acceptance is strongly
+content-dependent — code is far more predictable than prose, so more of each 7-token block
+survives — which is consistent with the spread in the table (code +83%, prose only +16%). A
+per-probe acceptance breakdown would confirm it; this recipe has not measured that.
+
+Quality is unaffected on every measure taken: KL 0.0188 from unquantized BF16 versus 0.0198
+for the MTP baseline, top-1 agreement 0.942 vs 0.957, and **22/32 on the capability gate —
+the same score as unquantized BF16, unsloth NVFP4 and INT8**. No measurable cost for the speed.
+
+Serve it with:
+
+```bash
+docker run -d --name vllm-qwen38 --gpus all --ipc=host --shm-size 32g \
+  --ulimit memlock=-1 --ulimit stack=67108864 --cpuset-cpus 5-9,15-19 \
+  -p 127.0.0.1:8000:8000 -v $HOME/dev/qwen3.8/hf-cache:/hf -e HF_HOME=/hf \
+  vllm/vllm-openai:nightly \
+    unsloth/Qwen3.8-27B-NVFP4 --served-model-name qwen3.8-27b --port 8000 \
+    --max-model-len 262144 --kv-cache-dtype fp8 --gpu-memory-utilization 0.90 \
+    --max-num-seqs 16 --max-num-batched-tokens 8192 \
+    --reasoning-parser qwen3 --enable-auto-tool-choice --tool-call-parser qwen3_coder \
+    --speculative-config '{"method":"dflash","model":"incoai/Qwen3.8-27B-DFlash2","num_speculative_tokens":7}'
+```
+
+(The image's ENTRYPOINT is already `vllm serve`, so the model name comes first with no
+`vllm serve` prefix. `scripts/serve.sh` handles both styles via `CMD_PREFIX`.)
+
+Costs: the draft model adds ~3.3 GiB, and graph capture takes 108 s and 3.19 GiB, shrinking
+the KV pool from 2.25M to 1.70M tokens (still 6.5× a full 262K request). Cold boot is ~6 min.
+Concurrency behaviour is not yet characterised — the numbers above are single-stream.
+
+**On NGC 26.07 it cannot work**, and `dflash2-backport/` documents that in detail. The image
+ships DFlash *v1*; DFlash2's convolutions and selector landed upstream on 2026-08-21, after
+the image was cut. The backport applies the upstream change (pure Python), and gets as far as
+loading the draft, compiling the selector and completing graph capture — then faults in
+`propose()`, because the container's v1 speculator pads `sample_idx_mapping` with `0` where
+DFlash2's kernel uses `valid = req_state >= 0` as its padding test, and stores `sample_pos`
+un-incremented. Those were left unpatched deliberately: guessing the buffer convention would
+stop the crash while silently mis-sampling drafts, and lossless speculation that is not
+lossless is worse than none. **Use upstream instead — that directory is only relevant if you
+are pinned to NGC.**
 
 Rejected alternatives:
 - **TRITON_ATTN backend**: identical perf at bs=1 despite enabling FULL_AND_PIECEWISE graphs.
