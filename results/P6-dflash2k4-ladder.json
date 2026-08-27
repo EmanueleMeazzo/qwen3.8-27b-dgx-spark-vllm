@@ -1,0 +1,206 @@
+{
+  "tag": "P6-dflash2k4-ladder",
+  "port": 8000,
+  "timestamp": "2026-08-27 12:07:39",
+  "sampling": {
+    "temperature": null,
+    "top_p": null
+  },
+  "probes": {
+    "chat": {
+      "median": {
+        "ttft_s": 0.259,
+        "total_s": 4.271,
+        "decode_s": 4.012,
+        "completion_tokens": 111,
+        "reasoning_tokens": 0,
+        "net_decode_tok_s": 27.67,
+        "visible_decode_tok_s": 27.67,
+        "e2e_tok_s": 25.99
+      },
+      "runs": [
+        {
+          "ttft_s": 0.259,
+          "total_s": 4.271,
+          "decode_s": 4.012,
+          "completion_tokens": 111,
+          "reasoning_tokens": 0,
+          "net_decode_tok_s": 27.67,
+          "visible_decode_tok_s": 27.67,
+          "e2e_tok_s": 25.99
+        }
+      ],
+      "spec": {
+        "accepted": 75,
+        "drafted": 140,
+        "accepted_over_draft": 0.5357,
+        "steps": 35,
+        "tokens_per_target_pass": 3.143,
+        "draft_tokens_per_step": 4.0,
+        "per_position_acceptance": [
+          0.8,
+          0.5714,
+          0.4286,
+          0.3429
+        ]
+      }
+    }
+  },
+  "mtp": {
+    "accepted_over_draft": 0.546,
+    "accepted": 3226,
+    "drafted": 5908
+  },
+  "ladders": {
+    "essay": [
+      {
+        "streams": 8,
+        "errors": 0,
+        "wall_s": 52.96,
+        "aggregate_tok_s": 105.5,
+        "per_stream_tok_s": 14.1,
+        "ttft_med_s": 2.192,
+        "ttft_max_s": 2.193,
+        "spec": {
+          "accepted": 3400,
+          "drafted": 8752,
+          "accepted_over_draft": 0.3885,
+          "steps": 2188,
+          "tokens_per_target_pass": 2.554,
+          "draft_tokens_per_step": 4.0,
+          "per_position_acceptance": [
+            0.7176,
+            0.4433,
+            0.2473,
+            0.1458
+          ]
+        },
+        "probe": "essay"
+      },
+      {
+        "streams": 16,
+        "errors": 0,
+        "wall_s": 56.25,
+        "aggregate_tok_s": 198.4,
+        "per_stream_tok_s": 13.0,
+        "ttft_med_s": 0.78,
+        "ttft_max_s": 0.783,
+        "spec": {
+          "accepted": 6760,
+          "drafted": 17620,
+          "accepted_over_draft": 0.3837,
+          "steps": 4405,
+          "tokens_per_target_pass": 2.535,
+          "draft_tokens_per_step": 4.0,
+          "per_position_acceptance": [
+            0.7081,
+            0.4411,
+            0.2499,
+            0.1355
+          ]
+        },
+        "probe": "essay"
+      }
+    ],
+    "code": [
+      {
+        "streams": 8,
+        "errors": 0,
+        "wall_s": 30.23,
+        "aggregate_tok_s": 185.3,
+        "per_stream_tok_s": 24.0,
+        "ttft_med_s": 0.567,
+        "ttft_max_s": 0.568,
+        "spec": {
+          "accepted": 4334,
+          "drafted": 5104,
+          "accepted_over_draft": 0.8491,
+          "steps": 1276,
+          "tokens_per_target_pass": 4.397,
+          "draft_tokens_per_step": 4.0,
+          "per_position_acceptance": [
+            0.9514,
+            0.8942,
+            0.8111,
+            0.7398
+          ]
+        },
+        "probe": "code"
+      },
+      {
+        "streams": 16,
+        "errors": 0,
+        "wall_s": 34.51,
+        "aggregate_tok_s": 324.6,
+        "per_stream_tok_s": 21.9,
+        "ttft_med_s": 0.785,
+        "ttft_max_s": 0.788,
+        "spec": {
+          "accepted": 8575,
+          "drafted": 10512,
+          "accepted_over_draft": 0.8157,
+          "steps": 2628,
+          "tokens_per_target_pass": 4.263,
+          "draft_tokens_per_step": 4.0,
+          "per_position_acceptance": [
+            0.9311,
+            0.8619,
+            0.774,
+            0.696
+          ]
+        },
+        "probe": "code"
+      }
+    ]
+  },
+  "ladder": [
+    {
+      "streams": 8,
+      "errors": 0,
+      "wall_s": 52.96,
+      "aggregate_tok_s": 105.5,
+      "per_stream_tok_s": 14.1,
+      "ttft_med_s": 2.192,
+      "ttft_max_s": 2.193,
+      "spec": {
+        "accepted": 3400,
+        "drafted": 8752,
+        "accepted_over_draft": 0.3885,
+        "steps": 2188,
+        "tokens_per_target_pass": 2.554,
+        "draft_tokens_per_step": 4.0,
+        "per_position_acceptance": [
+          0.7176,
+          0.4433,
+          0.2473,
+          0.1458
+        ]
+      },
+      "probe": "essay"
+    },
+    {
+      "streams": 16,
+      "errors": 0,
+      "wall_s": 56.25,
+      "aggregate_tok_s": 198.4,
+      "per_stream_tok_s": 13.0,
+      "ttft_med_s": 0.78,
+      "ttft_max_s": 0.783,
+      "spec": {
+        "accepted": 6760,
+        "drafted": 17620,
+        "accepted_over_draft": 0.3837,
+        "steps": 4405,
+        "tokens_per_target_pass": 2.535,
+        "draft_tokens_per_step": 4.0,
+        "per_position_acceptance": [
+          0.7081,
+          0.4411,
+          0.2499,
+          0.1355
+        ]
+      },
+      "probe": "essay"
+    }
+  ]
+}

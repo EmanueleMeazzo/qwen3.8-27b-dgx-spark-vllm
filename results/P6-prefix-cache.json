@@ -1,0 +1,48 @@
+{
+  "tag": "P6-prefix-cache",
+  "timestamp": "2026-08-27 11:07",
+  "note": "Does upstream vLLM's prefix caching actually save prefill on this hybrid GDN architecture? Identical 32,891-token prompt served repeatedly on vllm/vllm-openai:nightly (0.26.1rc1.dev1177) + DFlash2. hit_rate is the delta of vllm:prefix_cache_hits_total over vllm:prefix_cache_queries_total across the request. Cited in README \u00a75.",
+  "image": "vllm/vllm-openai:nightly",
+  "prompt_tokens": 32891,
+  "trial_immediate_repeats": [
+    {
+      "serving": "cold",
+      "ttft_s": 24.14,
+      "hit_rate": 0.0
+    },
+    {
+      "serving": "repeat1",
+      "ttft_s": 24.28,
+      "hit_rate": 0.0
+    },
+    {
+      "serving": "repeat2",
+      "ttft_s": 2.39,
+      "hit_rate": 0.902
+    }
+  ],
+  "trial_with_10s_pause": [
+    {
+      "serving": "cold",
+      "ttft_s": 24.2,
+      "hit_rate": 0.0
+    },
+    {
+      "serving": "repeat1_after_10s",
+      "ttft_s": 24.25,
+      "hit_rate": 0.0
+    },
+    {
+      "serving": "repeat2",
+      "ttft_s": 2.39,
+      "hit_rate": 0.902
+    }
+  ],
+  "conclusion": "The first repeat never hits; the second hits at 90.2% and is 10.1x faster. A 10 s pause does not change this, so it is not a race against block release -- the prefix must be served twice before it becomes reusable.",
+  "speedup_second_repeat": 10.1,
+  "config_flag_by_image": {
+    "nvcr.io/nvidia/vllm:26.07-py3": "enable_prefix_caching=False",
+    "vllm/vllm-openai:nightly": "enable_prefix_caching=True",
+    "evidence": "logs/qwen38-server.log: False in all 34 NGC boots, True in all 3 upstream boots"
+  }
+}

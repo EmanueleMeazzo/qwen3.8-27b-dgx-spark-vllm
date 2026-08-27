@@ -1,0 +1,199 @@
+{
+  "tag": "P6-dflash2-probes",
+  "port": 8000,
+  "timestamp": "2026-08-27 10:52:29",
+  "sampling": {
+    "temperature": null,
+    "top_p": null
+  },
+  "probes": {
+    "code": {
+      "median": {
+        "ttft_s": 0.241,
+        "total_s": 13.218,
+        "decode_s": 12.968,
+        "completion_tokens": 700,
+        "reasoning_tokens": 0,
+        "net_decode_tok_s": 53.98,
+        "visible_decode_tok_s": 53.98,
+        "e2e_tok_s": 52.96
+      },
+      "runs": [
+        {
+          "ttft_s": 0.249,
+          "total_s": 13.218,
+          "decode_s": 12.968,
+          "completion_tokens": 700,
+          "reasoning_tokens": 0,
+          "net_decode_tok_s": 53.98,
+          "visible_decode_tok_s": 53.98,
+          "e2e_tok_s": 52.96
+        },
+        {
+          "ttft_s": 0.236,
+          "total_s": 13.55,
+          "decode_s": 13.313,
+          "completion_tokens": 700,
+          "reasoning_tokens": 0,
+          "net_decode_tok_s": 52.58,
+          "visible_decode_tok_s": 52.58,
+          "e2e_tok_s": 51.66
+        },
+        {
+          "ttft_s": 0.241,
+          "total_s": 13.002,
+          "decode_s": 12.761,
+          "completion_tokens": 700,
+          "reasoning_tokens": 0,
+          "net_decode_tok_s": 54.85,
+          "visible_decode_tok_s": 54.85,
+          "e2e_tok_s": 53.84
+        }
+      ],
+      "spec": {
+        "accepted": 1757,
+        "drafted": 2450,
+        "accepted_over_draft": 0.7171,
+        "steps": 350,
+        "tokens_per_target_pass": 6.02,
+        "draft_tokens_per_step": 7.0,
+        "per_position_acceptance": [
+          0.9457,
+          0.8686,
+          0.7743,
+          0.7086,
+          0.6314,
+          0.58,
+          0.5114
+        ]
+      }
+    },
+    "essay": {
+      "median": {
+        "ttft_s": 0.241,
+        "total_s": 29.72,
+        "decode_s": 29.484,
+        "completion_tokens": 700,
+        "reasoning_tokens": 0,
+        "net_decode_tok_s": 23.74,
+        "visible_decode_tok_s": 23.74,
+        "e2e_tok_s": 23.55
+      },
+      "runs": [
+        {
+          "ttft_s": 0.241,
+          "total_s": 31.016,
+          "decode_s": 30.775,
+          "completion_tokens": 700,
+          "reasoning_tokens": 0,
+          "net_decode_tok_s": 22.75,
+          "visible_decode_tok_s": 22.75,
+          "e2e_tok_s": 22.57
+        },
+        {
+          "ttft_s": 0.245,
+          "total_s": 29.604,
+          "decode_s": 29.359,
+          "completion_tokens": 700,
+          "reasoning_tokens": 0,
+          "net_decode_tok_s": 23.84,
+          "visible_decode_tok_s": 23.84,
+          "e2e_tok_s": 23.65
+        },
+        {
+          "ttft_s": 0.236,
+          "total_s": 29.72,
+          "decode_s": 29.484,
+          "completion_tokens": 700,
+          "reasoning_tokens": 0,
+          "net_decode_tok_s": 23.74,
+          "visible_decode_tok_s": 23.74,
+          "e2e_tok_s": 23.55
+        }
+      ],
+      "spec": {
+        "accepted": 1298,
+        "drafted": 5614,
+        "accepted_over_draft": 0.2312,
+        "steps": 802,
+        "tokens_per_target_pass": 2.618,
+        "draft_tokens_per_step": 7.0,
+        "per_position_acceptance": [
+          0.6883,
+          0.4302,
+          0.2257,
+          0.1347,
+          0.0748,
+          0.0461,
+          0.0187
+        ]
+      }
+    },
+    "chat": {
+      "median": {
+        "ttft_s": 0.264,
+        "total_s": 3.853,
+        "decode_s": 3.592,
+        "completion_tokens": 109,
+        "reasoning_tokens": 0,
+        "net_decode_tok_s": 32.12,
+        "visible_decode_tok_s": 32.12,
+        "e2e_tok_s": 29.79
+      },
+      "runs": [
+        {
+          "ttft_s": 0.264,
+          "total_s": 4.184,
+          "decode_s": 3.92,
+          "completion_tokens": 109,
+          "reasoning_tokens": 0,
+          "net_decode_tok_s": 27.8,
+          "visible_decode_tok_s": 27.8,
+          "e2e_tok_s": 26.05
+        },
+        {
+          "ttft_s": 0.264,
+          "total_s": 3.626,
+          "decode_s": 3.362,
+          "completion_tokens": 108,
+          "reasoning_tokens": 0,
+          "net_decode_tok_s": 32.12,
+          "visible_decode_tok_s": 32.12,
+          "e2e_tok_s": 29.79
+        },
+        {
+          "ttft_s": 0.261,
+          "total_s": 3.853,
+          "decode_s": 3.592,
+          "completion_tokens": 116,
+          "reasoning_tokens": 0,
+          "net_decode_tok_s": 32.29,
+          "visible_decode_tok_s": 32.29,
+          "e2e_tok_s": 30.11
+        }
+      ],
+      "spec": {
+        "accepted": 236,
+        "drafted": 679,
+        "accepted_over_draft": 0.3476,
+        "steps": 97,
+        "tokens_per_target_pass": 3.433,
+        "draft_tokens_per_step": 7.0,
+        "per_position_acceptance": [
+          0.7938,
+          0.6082,
+          0.4124,
+          0.2577,
+          0.1856,
+          0.1031,
+          0.0722
+        ]
+      }
+    }
+  },
+  "mtp": {
+    "accepted_over_draft": 0.3717,
+    "accepted": 3330,
+    "drafted": 8960
+  }
+}

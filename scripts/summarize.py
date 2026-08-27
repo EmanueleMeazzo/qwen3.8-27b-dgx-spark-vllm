@@ -101,6 +101,85 @@ def ladders():
             for r in rows))
 
 
+# ---- phase 6: the three quantities §4/§5 left unmeasured ---------------------
+# Tags are P6-<drafter>-{probes,ladder,depth}; drafter order is fixed so the
+# control (MTP=3) always prints under the challenger.
+P6 = [("P6-dflash2", "DFlash2 (7 draft tok)"),
+      ("P6-dflash2k4", "DFlash2 (4 draft tok)"),
+      ("P6-mtp3", "MTP (3 draft tok)")]
+
+
+def _acc(spec):
+    return "—" if not spec else f"{spec['accepted_over_draft']:.3f}"
+
+
+def _tpp(spec):
+    if not spec or "tokens_per_target_pass" not in spec:
+        return "—"
+    return f"{spec['tokens_per_target_pass']:.2f}"
+
+
+def per_probe_acceptance():
+    """Is draft acceptance content-dependent? One row per drafter x probe."""
+    print("\n| Drafter | Probe | decode tok/s | accept/draft | tokens per target pass |")
+    print("|---|---|---:|---:|---:|")
+    for tag, label in P6:
+        d = load(os.path.join(R, f"{tag}-probes.json"))
+        if not d:
+            continue
+        for probe in ("code", "essay", "chat"):
+            pr = d["probes"].get(probe)
+            if not pr:
+                continue
+            print(f"| {label} | {probe} | {pr['median']['net_decode_tok_s']:.1f} | "
+                  f"{_acc(pr.get('spec'))} | {_tpp(pr.get('spec'))} |")
+
+
+def concurrency_by_probe():
+    """Aggregate throughput and acceptance per rung, prose vs code."""
+    for tag, label in P6:
+        d = load(os.path.join(R, f"{tag}-ladder.json"))
+        lads = (d or {}).get("ladders") or {}
+        if not lads:
+            continue
+        probes = [p for p in ("essay", "code") if p in lads]
+        print(f"\n**{label}**\n")
+        print("| streams | " + " | ".join(
+            f"{p} agg tok/s | {p} accept" for p in probes) + " | errors |")
+        print("|---:|" + "---:|" * (2 * len(probes)) + "---:|")
+        for i, rung in enumerate(lads[probes[0]]):
+            cells, errs = [], 0
+            for p in probes:
+                r = lads[p][i]
+                errs += r.get("errors", 0)
+                cells += [f"{r['aggregate_tok_s']:.0f}", _acc(r.get("spec"))]
+            print(f"| {rung['streams']} | " + " | ".join(cells) + f" | {errs} |")
+
+
+def depth_curve():
+    """Prefill rate, decode rate, acceptance and retrieval vs context depth."""
+    for tag, label in P6:
+        d = load(os.path.join(R, f"{tag}-depth.json"))
+        rows = (d or {}).get("depths") or []
+        if not rows:
+            continue
+        needles = {n["target_tokens"]: n for n in (d.get("needle") or [])}
+        print(f"\n**{label}**\n")
+        print("| context | prompt tok | TTFT | prefill tok/s | decode tok/s | accept | needle |")
+        print("|---:|---:|---:|---:|---:|---:|:--:|")
+        for r in rows:
+            if "error" in r:
+                print(f"| {r['target_tokens']} | {r['prompt_tokens']} | "
+                      f"error: {r['error'][:40]} | | | | |")
+                continue
+            n = needles.get(r["target_tokens"])
+            found = "—" if not n else ("yes" if n["found"] else "**no**")
+            k = r["prompt_tokens"]
+            ctx = f"{k/1024:.0f}K" if k >= 1024 else str(k)
+            print(f"| {ctx} | {k} | {r['ttft_s']:.2f} s | {r['prefill_tok_s']:.0f} | "
+                  f"{r['decode_tok_s']:.1f} | {_acc(r.get('spec'))} | {found} |")
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--ref", default="Q-bf16", help="tag used as the fidelity reference")
@@ -108,3 +187,6 @@ if __name__ == "__main__":
     speed_table()
     quality_table(a.ref)
     ladders()
+    per_probe_acceptance()
+    concurrency_by_probe()
+    depth_curve()
