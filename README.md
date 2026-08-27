@@ -113,7 +113,7 @@ it was.** Upstream `vllm/vllm-openai` publishes arm64 images, and they run on th
 | torch / CUDA | 2.13.0a0 / 13.x | 2.13.0+cu130 / 13.0 |
 | compiled arch list | includes sm_121 | sm_80/90/100/110/**120** — no sm_121 |
 | DFlash2 drafter | ✗ absent | ✅ present and complete |
-| prefix caching | `enable_prefix_caching=False` | `True` (~10× on a repeated long prefill, §5) |
+| prefix caching | `False` — counters never even queried | `True` (~10× on a repeated long prefill, §5) |
 | decode (unsloth NVFP4, MTP=3) | 28.0 / 19.2 / 22.2 | 28.3 / 19.9 / 21.7 |
 | MTP acceptance | 0.600 | 0.622 |
 | KV pool @ 0.90 | 2.33M tok | 2.25M tok |
@@ -534,6 +534,19 @@ only one of them degrades — but the crossover point would sit deeper for code-
 table used to record prefix caching as unavailable for this hybrid architecture. That is true
 of the NGC build and false of upstream: across every boot in `logs/`, NGC 26.07 reports
 `enable_prefix_caching=False` and upstream nightly (0.26.1rc1.dev1177) reports `True`.
+
+A dedicated NGC boot confirms the flag behaviourally rather than by configuration alone. The
+same 32,894-token prompt, served three times:
+
+| serving | NGC 26.07 TTFT | prefix-cache queries | upstream TTFT | queries |
+|---|---:|---:|---:|---:|
+| first (cold) | 27.12 s | **0** | 24.14 s | 32,903 |
+| second | 26.90 s | **0** | 24.28 s | 32,903 |
+| third | 26.99 s | **0** | **2.39 s** | 32,903 |
+
+On NGC the cache is not merely unhelpful, it is never consulted — the counters stay at zero and
+all three prefills cost full price. (Incidentally, NGC's cold prefill of the same prompt is
+~11% slower than upstream's, 26.9–27.1 s against 24.1–24.3 s, tight across repeats on both.)
 
 What it delivers is not what the flag suggests. Serving an identical 32,891-token prompt three
 times in a row:
