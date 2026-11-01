@@ -108,6 +108,20 @@ P6 = [("P6-dflash2", "DFlash2 (7 draft tok)"),
       ("P6-dflash2k4", "DFlash2 (4 draft tok)"),
       ("P6-mtp3", "MTP (3 draft tok)")]
 
+# Phase 7 — vLLM 0.28.0 against a same-session 0.26.1 control. Kept as a separate group
+# because the version, not just the drafter, differs between rows: never read a 0.28.0
+# row against a P6 row (different session, and §9's cross-day drift is 5-7%).
+P7 = [("P7-new-mtp3",    "0.28.0 · MTP (3)"),
+      ("P7-old-mtp3",    "0.26.1 · MTP (3)"),
+      ("P7-new-dflash2", "0.28.0 · DFlash2 (7)"),
+      ("P7-old-dflash2", "0.26.1 · DFlash2 (7)"),
+      ("P7-new-dspark",  "0.28.0 · DSpark (7)")]
+
+# Phase 8: YaRN x2 (512K) vs native RoPE, NGC 26.07 + MTP=3, same session.
+P8 = [("P8-ctl",  "native RoPE · 262K"),
+      ("P8-yarn", "YaRN x2 · 512K (--hf-overrides)"),
+      ("P8-yarncfg", "YaRN x2 · 512K (config.json)")]
+
 
 def _acc(spec):
     return "—" if not spec else f"{spec['accepted_over_draft']:.3f}"
@@ -119,11 +133,11 @@ def _tpp(spec):
     return f"{spec['tokens_per_target_pass']:.2f}"
 
 
-def per_probe_acceptance():
+def per_probe_acceptance(group=P6):
     """Is draft acceptance content-dependent? One row per drafter x probe."""
     print("\n| Drafter | Probe | decode tok/s | accept/draft | tokens per target pass |")
     print("|---|---|---:|---:|---:|")
-    for tag, label in P6:
+    for tag, label in group:
         d = load(os.path.join(R, f"{tag}-probes.json"))
         if not d:
             continue
@@ -135,9 +149,9 @@ def per_probe_acceptance():
                   f"{_acc(pr.get('spec'))} | {_tpp(pr.get('spec'))} |")
 
 
-def concurrency_by_probe():
+def concurrency_by_probe(group=P6):
     """Aggregate throughput and acceptance per rung, prose vs code."""
-    for tag, label in P6:
+    for tag, label in group:
         d = load(os.path.join(R, f"{tag}-ladder.json"))
         lads = (d or {}).get("ladders") or {}
         if not lads:
@@ -156,9 +170,9 @@ def concurrency_by_probe():
             print(f"| {rung['streams']} | " + " | ".join(cells) + f" | {errs} |")
 
 
-def depth_curve():
+def depth_curve(group=P6):
     """Prefill rate, decode rate, acceptance and retrieval vs context depth."""
-    for tag, label in P6:
+    for tag, label in group:
         d = load(os.path.join(R, f"{tag}-depth.json"))
         rows = (d or {}).get("depths") or []
         if not rows:
@@ -187,6 +201,13 @@ if __name__ == "__main__":
     speed_table()
     quality_table(a.ref)
     ladders()
-    per_probe_acceptance()
-    concurrency_by_probe()
-    depth_curve()
+    for name, group in (("Phase 6 (0.26.1)", P6), ("Phase 7 (0.28.0 vs 0.26.1)", P7),
+                        ("Phase 8 (YaRN 512K, NGC)", P8)):
+        if not any(load(os.path.join(R, f"{t}-probes.json")) or
+                   load(os.path.join(R, f"{t}-ladder.json")) or
+                   load(os.path.join(R, f"{t}-depth.json")) for t, _ in group):
+            continue
+        print(f"\n\n## {name}")
+        per_probe_acceptance(group)
+        concurrency_by_probe(group)
+        depth_curve(group)

@@ -76,7 +76,7 @@ def stream_chat(port, prompt, max_tokens, temperature=0.7, top_p=0.8, thinking=F
     ttft = None
     completion_tokens = None
     reasoning_tokens = 0
-    with urllib.request.urlopen(req, body, timeout=900) as resp:
+    with urllib.request.urlopen(req, body, timeout=HTTP_TIMEOUT) as resp:
         for raw in resp:
             line = raw.decode("utf-8").strip()
             if not line.startswith("data:"):
@@ -173,6 +173,14 @@ def spec_delta(before, after, k=None):
     return out
 
 CORPUS = "hf-cache/bench-corpus/mobydick.txt"
+# Moby-Dick is ~340K tokens, too short for a 512K (YaRN) depth. Beyond its end the
+# corpus continues with War and Peace (~900K tokens). Moby-Dick stays first, so every
+# prompt up to ~330K tokens is byte-identical to the ones earlier phases measured.
+CORPUS2 = "hf-cache/bench-corpus/warandpeace.txt"
+CORPUS2_URL = "https://www.gutenberg.org/cache/epub/2600/pg2600.txt"
+# Socket timeout for chat requests. vLLM streams nothing until the first token, so this
+# has to cover the whole prefill: ~150 s at 128K, but an estimated ~20+ min at 512K.
+HTTP_TIMEOUT = 900
 # Deliberately real, non-repetitive prose. Tiled or generated filler is far more
 # predictable than natural text, which would inflate drafter acceptance and make
 # the depth curve measure the filler rather than the model.
@@ -189,25 +197,36 @@ DEPTH_Q = ("Summarise the events and themes of this excerpt in roughly 300 words
 
 CORPUS_URL = "https://www.gutenberg.org/files/2701/2701-0.txt"
 
-def corpus_text():
-    """Long-context filler: Moby-Dick from Project Gutenberg, fetched on first use.
-
-    Lives under the git-ignored hf-cache/, so a clean clone pulls it rather than
-    carrying a megabyte of public-domain text in the repo.
-    """
+def _gutenberg(rel, url):
+    """Fetch a Project Gutenberg text on first use; return it without the license footer."""
     import os
-    path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), CORPUS)
+    path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), rel)
     if not os.path.exists(path):
         os.makedirs(os.path.dirname(path), exist_ok=True)
-        print(f"[corpus] fetching {CORPUS_URL}")
-        with urllib.request.urlopen(CORPUS_URL, timeout=120) as r, open(path, "wb") as f:
+        print(f"[corpus] fetching {url}")
+        with urllib.request.urlopen(url, timeout=120) as r, open(path, "wb") as f:
             f.write(r.read())
     with open(path, encoding="utf-8", errors="ignore") as f:
         t = f.read()
+    end = t.find("*** END OF THE PROJECT GUTENBERG EBOOK")
+    return t[:end] if end > 0 else t
+
+def corpus_text():
+    """Long-context filler: Moby-Dick, then War and Peace, from Project Gutenberg.
+
+    Both live under the git-ignored hf-cache/, so a clean clone pulls them rather than
+    carrying megabytes of public-domain text in the repo.
+    """
+    t = _gutenberg(CORPUS, CORPUS_URL)
     # Skip the front matter *and* the table of contents: a chapter list is exactly the
     # repetitive text this probe is meant to avoid, and it would dominate a 1K-token depth.
     start = t.find("Call me Ishmael")
-    return t[start:] if start > 0 else t
+    t = t[start:] if start > 0 else t
+    w = _gutenberg(CORPUS2, CORPUS2_URL)
+    # War and Peace's contents list is just as repetitive; start at the first chapter text.
+    s2 = w.find("Well, Prince, so Genoa and Lucca")
+    w = w[s2:] if s2 > 0 else w
+    return t.rstrip() + "\n\n" + w
 
 def count_tokens(port, text):
     """Exact prompt length from the server's own tokenizer (falls back to chars/3.6)."""
@@ -236,7 +255,8 @@ def build_depth_prompt(port, target_tokens, text, question=None, nonce=""):
               + body + "\n\n" + (question or NEEDLE_Q))
     return prompt, count_tokens(port, prompt)
 
-def depth_sweep(port, depths, max_tokens=300, temperature=0.7, top_p=0.8, spec_tokens=None):
+def depth_sweep(port, depths, max_tokens=300, temperature=0.7, top_p=0.8, spec_tokens=None,
+                warm=True):
     """Decode rate, prefill rate and drafter acceptance as a function of context depth.
 
     Every other number in this repo comes from a ~100-token prompt, so nothing in it
@@ -269,6 +289,10 @@ def depth_sweep(port, depths, max_tokens=300, temperature=0.7, top_p=0.8, spec_t
             "spec": spec_delta(c0, spec_counters(port), spec_tokens),
         }
         # Same prompt again: everything but the generation is a prefix-cache hit.
+        # Skippable: without prefix caching (NGC) it is a second full prefill, which
+        # at 512K is ~20 minutes spent measuring nothing.
+        if not warm:
+            out.append(row); print("[depth]", row); continue
         try:
             w = stream_chat(port, prompt, 16, temperature, top_p)
             row["ttft_warm_s"] = w["ttft_s"]
@@ -304,7 +328,7 @@ def stream_chat_text(port, prompt, max_tokens, temperature=0.7, top_p=0.8):
         "messages": [{"role": "user", "content": prompt}],
         "max_tokens": max_tokens, "temperature": temperature, "top_p": top_p,
         "chat_template_kwargs": {"enable_thinking": False},
-    }, timeout=900)
+    }, timeout=HTTP_TIMEOUT)
     return r["choices"][0]["message"].get("content") or ""
 
 def metrics_spec_acceptance(port):
@@ -389,10 +413,16 @@ def main():
                     help="comma list of context depths in tokens, e.g. 1024,16384,131072")
     ap.add_argument("--needle", action="store_true",
                     help="with --depths, also run a greedy retrieval check at each depth")
+    ap.add_argument("--no-warm", action="store_true",
+                    help="with --depths, skip the warm (prefix-cache) repeat of each prompt")
+    ap.add_argument("--http-timeout", type=int, default=900,
+                    help="socket timeout (s) for chat requests; must exceed the longest prefill")
     ap.add_argument("--spec-tokens", type=int, default=None,
                     help="num_speculative_tokens the server was launched with; enables "
                          "tokens-per-target-pass in the per-probe spec breakdown")
     args = ap.parse_args()
+    global HTTP_TIMEOUT
+    HTTP_TIMEOUT = args.http_timeout
 
     if not wait_server(args.port):
         print("server never became ready", file=sys.stderr); sys.exit(1)
@@ -455,7 +485,8 @@ def main():
         tps = args.top_p if args.top_p is not None else 0.8
         ds = [int(x) for x in args.depths.split(",")]
         results["depths"] = depth_sweep(args.port, ds, temperature=temps, top_p=tps,
-                                        spec_tokens=args.spec_tokens)
+                                        spec_tokens=args.spec_tokens,
+                                        warm=not args.no_warm)
         if args.needle:
             results["needle"] = depth_needle_check(args.port, ds)
 

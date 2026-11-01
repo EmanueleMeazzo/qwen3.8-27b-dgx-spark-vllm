@@ -89,7 +89,9 @@ BF16's speed.
 `Qwen/Qwen3.8-27B` — arch `Qwen3_5ForConditionalGeneration` ("Qwen3.5" family):
 - 64 layers: 48 GDN linear-attention + 16 full attention (`full_attention_interval: 4`)
 - Vision tower included (serves images/video out of the box)
-- Native 262,144-token context; extendable to 1M via YaRN (validated points: factor 2× @512K, 4× @1M)
+- Native 262,144-token context; extendable to 1M via YaRN (validated points: factor 2× @512K, 4× @1M).
+  With MTP, set YaRN in `config.json`, **not** via `--hf-overrides` — the override never reaches
+  the drafter and MTP acceptance drops to exactly 0 past 262K (§5)
 - **In-checkpoint MTP draft layer** (`mtp_num_hidden_layers: 1`) — free speculative decoding, no extra download
 - Thinking mode on by default; sampling defaults from `generation_config.json` (temp 1.0 / top_p 0.95 / top_k 20 thinking; 0.7 / 0.8 / 20 non-thinking)
 
@@ -567,6 +569,65 @@ This also invalidates any depth measurement that reuses a prompt: an earlier run
 reported 37,000 tok/s prefill at 128K, which is simply a cache hit. Every timed prompt in
 `bench.py` now carries a unique nonce at position 0.
 
+### Beyond 262K: YaRN to 512K, and a trap for MTP
+
+Everything above stops at 128K on upstream. `scripts/phase8.sh` measures the NGC recipe itself
+(26.07, unsloth NVFP4, MTP=3) out to ~496K with YaRN factor 2, three boots in one session:
+native RoPE as the control, YaRN via `--hf-overrides` exactly as the model card and the
+previous version of this README said, and YaRN written into `config.json`. Moby-Dick alone is
+~340K tokens, so the depth corpus now continues into War and Peace; every prompt up to 128K is
+byte-identical to the one §5 measured above.
+
+**At short context YaRN costs nothing.** Code / essay / chat decode: 28.3 / 19.3 / 22.4 tok/s
+native, 28.9 / 19.5 / 22.8 with `--hf-overrides`, 29.6 / 20.6 / 22.8 with `config.json` YaRN —
+all within boot-to-boot noise, although vLLM applies the rescaled RoPE to every request.
+
+**Past 262K, `--hf-overrides` switches MTP off — and then it costs you.** Prose decode at depth
+(one 300-token generation per point, so ±10% is noise below 262K):
+
+| context | native | YaRN, `--hf-overrides` | accept | YaRN, `config.json` | accept | TTFT (cold) |
+|---:|---:|---:|---:|---:|---:|---:|
+| 1K | 19.5 | 19.5 | 0.460 | 22.3 | 0.555 | 0.7 s |
+| 16K | 22.3 | 19.3 | 0.473 | 20.3 | 0.484 | 13 s |
+| 128K | 18.0 | 17.5 | 0.511 | 19.9 | 0.590 | 151 s |
+| 256K | — | **7.3** | **0.000** | **16.5** | 0.559 | 425 s |
+| ~496K | — | **5.8** | **0.000** | **12.2** | 0.496 | **1,255 s** |
+
+With `--hf-overrides` the drafter accepted 0 of 897 drafted tokens at both deep points — not a
+degradation, a cliff exactly at the native limit — and decode fell *below* the 11.2 tok/s
+no-spec reference, because the engine still pays for three dead drafts per step. The cause is in
+vLLM (`vllm/config/speculative.py`, NGC 26.07 ≈ v0.24): the MTP draft model's `ModelConfig` is
+rebuilt from the checkpoint with `hf_overrides=SpeculativeConfig.hf_config_override`, so the
+user's override never reaches it. The drafter keeps native RoPE and a 262,144-token
+`max_model_len`, and past that its predictions are noise. The target model is fine throughout:
+the needle was found at every depth on every boot.
+
+Writing YaRN into the checkpoint's own `config.json` gives target and drafter the same RoPE
+(verified in-container through the same `hf_config_override` path the drafter uses). Acceptance
+then holds at 0.50–0.56 out to ~496K, and what remains is the real cost of depth: **12.2 tok/s at
+~496K, ~40% below the 1K–128K band on prose.** The recipe, with a symlinked copy so the weights
+are not duplicated:
+
+```bash
+cd hf-cache
+snap=hub/models--unsloth--Qwen3.8-27B-NVFP4/snapshots/<rev>
+dst=local/Qwen3.8-27B-NVFP4-yarn2; mkdir -p $dst
+for f in $snap/*; do [ "$(basename $f)" = config.json ] || ln -sfn ../../$f $dst/; done
+python3 - $snap/config.json $dst/config.json <<'EOF'
+import json, sys
+c = json.load(open(sys.argv[1])); t = c.get("text_config", c)
+t["rope_parameters"].update(rope_type="yarn", factor=2.0, original_max_position_embeddings=262144)
+t["max_position_embeddings"] = 524288
+json.dump(c, open(sys.argv[2], "w"), indent=2)
+EOF
+# then serve /hf/local/Qwen3.8-27B-NVFP4-yarn2 with --max-model-len 524288, no --hf-overrides
+```
+
+Prefill, not decode, is what makes 512K expensive: 617 tok/s at 256K and ~400 tok/s at ~496K,
+so a cold ~500K prompt costs **~21 minutes** before the first token, and NGC has no prefix
+caching to amortise it. Not measured: the code probe at depth (the ~28 tok/s headline is code;
+the depth probe is prose), and factor 4 / 1M.
+
 ---
 
 ## 6. Serving parameters (measured)
@@ -577,7 +638,7 @@ reported 37,000 tok/s prefill at 128K, which is simply a cache hit. Every timed 
 | `--max-num-seqs` | 16 | matches concurrency ladder; capping to 4 queues badly at 8+ streams (TTFT 20–42 s) |
 | `--max-num-batched-tokens` | 8192 | good TTFT/throughput balance at these prompt sizes |
 | `--kv-cache-dtype fp8` | yes | ~2× KV density; standard on this model |
-| `--max-model-len` | 262144 | native, and retrieval is intact at 128K (§5) — but a 128K prompt costs ~150 s of prefill. For 512K/1M add YaRN hf-overrides (factor 2/4, see model card) + `VLLM_ALLOW_LONG_MAX_MODEL_LEN=1` |
+| `--max-model-len` | 262144 | native, and retrieval is intact at 128K (§5) — but a 128K prompt costs ~150 s of prefill. For 512K: YaRN factor 2 **written into `config.json`** of a local checkpoint copy (§5), not `--hf-overrides`, which leaves the MTP drafter on native RoPE (0% acceptance past 262K). A ~500K cold prompt costs ~21 min of prefill |
 | `--cpuset-cpus 5-9,15-19` | X925 cores only | big.LITTLE box; scheduler/tokenizer never land on A725 efficiency cores (SGLang box: +2–7% decode) |
 | attention backend | default (FlashInfer) | TRITON_ATTN measured identical |
 | prefix caching | image-dependent | NGC 26.07 reports `enable_prefix_caching=False`; upstream nightly reports `True` and delivers ~10× on a repeated long prefill — but only from the *second* repeat (§5) |
@@ -705,6 +766,7 @@ control booted in the same session rather than on a number carried over from an 
 | `scripts/quant_sweep.sh` | one boot + full eval cycle per checkpoint |
 | `scripts/run_experiment.sh` | one-command serve→bench→quality→fidelity→capability→stop |
 | `scripts/phase6.sh` | drafter profiling: per-probe acceptance, concurrency ladders and the depth sweep (§4, §5) |
+| `scripts/phase8.sh` | YaRN 512K on NGC: native vs `--hf-overrides` vs `config.json` YaRN, depths to ~496K (§5) |
 | `scripts/phase*.sh`, `final_validation.sh` | the sweeps that produced the earlier tables |
 | `dflash2-backport/` | vllm#52816 backported onto NGC 26.07, and why it still does not run |
 | `results/*.json` | every measurement in this README, raw |
@@ -715,4 +777,5 @@ control booted in the same session rather than on a number carried over from an 
 
 *Generated 2026-08-25 on gn100-6f38 (DGX Spark, driver 580.173.02, CUDA 13.3 userland /
 580 kernel via forward-compat). §4 concurrency/acceptance, §5 long context, and the
-prefix-caching correction added 2026-08-27 from the same box.*
+prefix-caching correction added 2026-08-27 from the same box; the 512K/YaRN measurements in §5
+added 2026-11-01.*
