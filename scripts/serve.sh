@@ -19,14 +19,18 @@ MAX_BATCHED_TOKENS="${MAX_BATCHED_TOKENS:-8192}"
 CPUSET="${CPUSET:-5-9,15-19}"                   # GB10 big.LITTLE: X925 cores only; empty disables
 YARN="${YARN:-0}"                               # 1 => rope YaRN override for CTX>262144
 EXTRA_ARGS="${EXTRA_ARGS:-}"
+# NGC images have no ENTRYPOINT, so the command must start with "vllm serve".
+# Upstream vllm/vllm-openai sets ENTRYPOINT ["vllm","serve"], so it must not.
+CMD_PREFIX="${CMD_PREFIX-vllm serve}"
 
 CONTAINER="vllm-$NAME"
 LOG="$ROOT/logs/$NAME-server.log"
 
 # ---- compose server args ---------------------------------------------------
-ARGS=(
-  vllm
-  serve "$MODEL"
+# shellcheck disable=SC2206
+ARGS=($CMD_PREFIX)
+ARGS+=(
+  "$MODEL"
   --served-model-name qwen3.8-27b
   --port "$PORT"
   --max-model-len "$CTX"
@@ -40,7 +44,14 @@ ARGS=(
 if [ "$SPEC" != "0" ]; then
   ARGS+=(--speculative-config "{\"method\":\"mtp\",\"num_speculative_tokens\":$SPEC}")
 fi
+# WARNING: --hf-overrides reaches the target model only. vLLM rebuilds the MTP drafter's
+# config from the checkpoint, so the drafter keeps native RoPE and a 262,144-token limit,
+# and past that its acceptance is exactly 0 (README §5). With MTP, put YaRN in the
+# checkpoint's config.json instead (README §5 has the recipe) and leave YARN=0.
 if [ "$YARN" = "1" ]; then
+  if [ "$SPEC" != "0" ] || [[ "$EXTRA_ARGS" == *speculative* ]]; then
+    echo ">>> WARNING: YARN=1 with speculative decoding: drafter acceptance is 0 past 262K (README §5)" >&2
+  fi
   factor=$(python3 -c "print(round($CTX/262144))")
   ARGS+=(--hf-overrides "{\"text_config\": {\"rope_parameters\": {\"mrope_interleaved\": true, \"mrope_section\": [11, 11, 10], \"rope_type\": \"yarn\", \"rope_theta\": 10000000, \"partial_rotary_factor\": 0.25, \"factor\": $factor, \"original_max_position_embeddings\": 262144}}}")
   export VLLM_ALLOW_LONG_MAX_MODEL_LEN=1
@@ -61,6 +72,8 @@ DOCKER_ARGS=( -d --name "$CONTAINER"
   -e VLLM_LOGGING_LEVEL=INFO
 )
 [ -n "$CPUSET" ] && DOCKER_ARGS+=(--cpuset-cpus "$CPUSET")
+# vLLM reads this inside the container; exporting it on the host (as above) never reaches it.
+[ "$YARN" = "1" ] && DOCKER_ARGS+=(-e VLLM_ALLOW_LONG_MAX_MODEL_LEN=1)
 if [ -n "${HF_TOKEN:-}" ]; then DOCKER_ARGS+=(-e HF_TOKEN="$HF_TOKEN"); fi
 # extra container env, space-separated KEY=VALUE pairs (e.g. DOCKER_ENV="VLLM_USE_DEEP_GEMM=0 FOO=1")
 # shellcheck disable=SC2206

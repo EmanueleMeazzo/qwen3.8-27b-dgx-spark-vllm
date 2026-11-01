@@ -1,0 +1,470 @@
+{
+  "tag": "P6-dflash2-ladder",
+  "port": 8000,
+  "timestamp": "2026-08-27 10:55:15",
+  "sampling": {
+    "temperature": null,
+    "top_p": null
+  },
+  "probes": {
+    "chat": {
+      "median": {
+        "ttft_s": 0.256,
+        "total_s": 4.056,
+        "decode_s": 3.799,
+        "completion_tokens": 119,
+        "reasoning_tokens": 0,
+        "net_decode_tok_s": 31.32,
+        "visible_decode_tok_s": 31.32,
+        "e2e_tok_s": 29.34
+      },
+      "runs": [
+        {
+          "ttft_s": 0.256,
+          "total_s": 4.056,
+          "decode_s": 3.799,
+          "completion_tokens": 119,
+          "reasoning_tokens": 0,
+          "net_decode_tok_s": 31.32,
+          "visible_decode_tok_s": 31.32,
+          "e2e_tok_s": 29.34
+        }
+      ],
+      "spec": {
+        "accepted": 85,
+        "drafted": 238,
+        "accepted_over_draft": 0.3571,
+        "steps": 34,
+        "tokens_per_target_pass": 3.5,
+        "draft_tokens_per_step": 7.0,
+        "per_position_acceptance": [
+          0.9118,
+          0.6176,
+          0.3235,
+          0.2059,
+          0.1765,
+          0.1765,
+          0.0882
+        ]
+      }
+    }
+  },
+  "mtp": {
+    "accepted_over_draft": 0.3701,
+    "accepted": 3430,
+    "drafted": 9268
+  },
+  "ladders": {
+    "essay": [
+      {
+        "streams": 1,
+        "errors": 0,
+        "wall_s": 30.62,
+        "aggregate_tok_s": 22.9,
+        "per_stream_tok_s": 23.0,
+        "ttft_med_s": 0.228,
+        "ttft_max_s": 0.228,
+        "spec": {
+          "accepted": 428,
+          "drafted": 1904,
+          "accepted_over_draft": 0.2248,
+          "steps": 272,
+          "tokens_per_target_pass": 2.574,
+          "draft_tokens_per_step": 7.0,
+          "per_position_acceptance": [
+            0.6875,
+            0.4118,
+            0.25,
+            0.114,
+            0.0625,
+            0.0294,
+            0.0184
+          ]
+        },
+        "probe": "essay"
+      },
+      {
+        "streams": 2,
+        "errors": 0,
+        "wall_s": 31.61,
+        "aggregate_tok_s": 44.3,
+        "per_stream_tok_s": 22.7,
+        "ttft_med_s": 0.337,
+        "ttft_max_s": 0.397,
+        "spec": {
+          "accepted": 884,
+          "drafted": 3619,
+          "accepted_over_draft": 0.2443,
+          "steps": 517,
+          "tokens_per_target_pass": 2.71,
+          "draft_tokens_per_step": 7.0,
+          "per_position_acceptance": [
+            0.706,
+            0.4642,
+            0.2437,
+            0.1547,
+            0.0774,
+            0.0406,
+            0.0232
+          ]
+        },
+        "probe": "essay"
+      },
+      {
+        "streams": 4,
+        "errors": 0,
+        "wall_s": 37.6,
+        "aggregate_tok_s": 74.5,
+        "per_stream_tok_s": 19.4,
+        "ttft_med_s": 0.428,
+        "ttft_max_s": 0.429,
+        "spec": {
+          "accepted": 1738,
+          "drafted": 7406,
+          "accepted_over_draft": 0.2347,
+          "steps": 1058,
+          "tokens_per_target_pass": 2.643,
+          "draft_tokens_per_step": 7.0,
+          "per_position_acceptance": [
+            0.7079,
+            0.4357,
+            0.2401,
+            0.1342,
+            0.0681,
+            0.0369,
+            0.0198
+          ]
+        },
+        "probe": "essay"
+      },
+      {
+        "streams": 8,
+        "errors": 0,
+        "wall_s": 46.63,
+        "aggregate_tok_s": 119.2,
+        "per_stream_tok_s": 15.7,
+        "ttft_med_s": 0.554,
+        "ttft_max_s": 0.557,
+        "spec": {
+          "accepted": 3466,
+          "drafted": 14686,
+          "accepted_over_draft": 0.236,
+          "steps": 2098,
+          "tokens_per_target_pass": 2.652,
+          "draft_tokens_per_step": 7.0,
+          "per_position_acceptance": [
+            0.6883,
+            0.4471,
+            0.2502,
+            0.133,
+            0.0753,
+            0.04,
+            0.0181
+          ]
+        },
+        "probe": "essay"
+      },
+      {
+        "streams": 16,
+        "errors": 0,
+        "wall_s": 64.58,
+        "aggregate_tok_s": 173.4,
+        "per_stream_tok_s": 11.5,
+        "ttft_med_s": 0.82,
+        "ttft_max_s": 0.822,
+        "spec": {
+          "accepted": 7095,
+          "drafted": 28798,
+          "accepted_over_draft": 0.2464,
+          "steps": 4114,
+          "tokens_per_target_pass": 2.725,
+          "draft_tokens_per_step": 7.0,
+          "per_position_acceptance": [
+            0.7166,
+            0.4548,
+            0.2652,
+            0.1434,
+            0.0807,
+            0.044,
+            0.0199
+          ]
+        },
+        "probe": "essay"
+      }
+    ],
+    "code": [
+      {
+        "streams": 1,
+        "errors": 0,
+        "wall_s": 12.95,
+        "aggregate_tok_s": 54.1,
+        "per_stream_tok_s": 55.0,
+        "ttft_med_s": 0.229,
+        "ttft_max_s": 0.229,
+        "spec": {
+          "accepted": 586,
+          "drafted": 791,
+          "accepted_over_draft": 0.7408,
+          "steps": 113,
+          "tokens_per_target_pass": 6.186,
+          "draft_tokens_per_step": 7.0,
+          "per_position_acceptance": [
+            0.9469,
+            0.885,
+            0.8142,
+            0.7699,
+            0.646,
+            0.6106,
+            0.5133
+          ]
+        },
+        "probe": "code"
+      },
+      {
+        "streams": 2,
+        "errors": 0,
+        "wall_s": 15.4,
+        "aggregate_tok_s": 90.9,
+        "per_stream_tok_s": 49.4,
+        "ttft_med_s": 0.316,
+        "ttft_max_s": 0.376,
+        "spec": {
+          "accepted": 1172,
+          "drafted": 1666,
+          "accepted_over_draft": 0.7035,
+          "steps": 238,
+          "tokens_per_target_pass": 5.924,
+          "draft_tokens_per_step": 7.0,
+          "per_position_acceptance": [
+            0.9454,
+            0.8782,
+            0.7815,
+            0.6975,
+            0.6218,
+            0.542,
+            0.458
+          ]
+        },
+        "probe": "code"
+      },
+      {
+        "streams": 4,
+        "errors": 0,
+        "wall_s": 16.89,
+        "aggregate_tok_s": 165.8,
+        "per_stream_tok_s": 44.1,
+        "ttft_med_s": 0.426,
+        "ttft_max_s": 0.427,
+        "spec": {
+          "accepted": 2352,
+          "drafted": 3248,
+          "accepted_over_draft": 0.7241,
+          "steps": 464,
+          "tokens_per_target_pass": 6.069,
+          "draft_tokens_per_step": 7.0,
+          "per_position_acceptance": [
+            0.9375,
+            0.8772,
+            0.7759,
+            0.7241,
+            0.6466,
+            0.5862,
+            0.5216
+          ]
+        },
+        "probe": "code"
+      },
+      {
+        "streams": 8,
+        "errors": 0,
+        "wall_s": 21.24,
+        "aggregate_tok_s": 263.6,
+        "per_stream_tok_s": 34.8,
+        "ttft_med_s": 0.557,
+        "ttft_max_s": 0.559,
+        "spec": {
+          "accepted": 4665,
+          "drafted": 6671,
+          "accepted_over_draft": 0.6993,
+          "steps": 953,
+          "tokens_per_target_pass": 5.895,
+          "draft_tokens_per_step": 7.0,
+          "per_position_acceptance": [
+            0.9328,
+            0.8562,
+            0.7618,
+            0.6894,
+            0.6044,
+            0.553,
+            0.4974
+          ]
+        },
+        "probe": "code"
+      },
+      {
+        "streams": 16,
+        "errors": 0,
+        "wall_s": 31.95,
+        "aggregate_tok_s": 350.5,
+        "per_stream_tok_s": 24.1,
+        "ttft_med_s": 0.827,
+        "ttft_max_s": 0.831,
+        "spec": {
+          "accepted": 9260,
+          "drafted": 13832,
+          "accepted_over_draft": 0.6695,
+          "steps": 1976,
+          "tokens_per_target_pass": 5.686,
+          "draft_tokens_per_step": 7.0,
+          "per_position_acceptance": [
+            0.9155,
+            0.8411,
+            0.7409,
+            0.6508,
+            0.5779,
+            0.5081,
+            0.4519
+          ]
+        },
+        "probe": "code"
+      }
+    ]
+  },
+  "ladder": [
+    {
+      "streams": 1,
+      "errors": 0,
+      "wall_s": 30.62,
+      "aggregate_tok_s": 22.9,
+      "per_stream_tok_s": 23.0,
+      "ttft_med_s": 0.228,
+      "ttft_max_s": 0.228,
+      "spec": {
+        "accepted": 428,
+        "drafted": 1904,
+        "accepted_over_draft": 0.2248,
+        "steps": 272,
+        "tokens_per_target_pass": 2.574,
+        "draft_tokens_per_step": 7.0,
+        "per_position_acceptance": [
+          0.6875,
+          0.4118,
+          0.25,
+          0.114,
+          0.0625,
+          0.0294,
+          0.0184
+        ]
+      },
+      "probe": "essay"
+    },
+    {
+      "streams": 2,
+      "errors": 0,
+      "wall_s": 31.61,
+      "aggregate_tok_s": 44.3,
+      "per_stream_tok_s": 22.7,
+      "ttft_med_s": 0.337,
+      "ttft_max_s": 0.397,
+      "spec": {
+        "accepted": 884,
+        "drafted": 3619,
+        "accepted_over_draft": 0.2443,
+        "steps": 517,
+        "tokens_per_target_pass": 2.71,
+        "draft_tokens_per_step": 7.0,
+        "per_position_acceptance": [
+          0.706,
+          0.4642,
+          0.2437,
+          0.1547,
+          0.0774,
+          0.0406,
+          0.0232
+        ]
+      },
+      "probe": "essay"
+    },
+    {
+      "streams": 4,
+      "errors": 0,
+      "wall_s": 37.6,
+      "aggregate_tok_s": 74.5,
+      "per_stream_tok_s": 19.4,
+      "ttft_med_s": 0.428,
+      "ttft_max_s": 0.429,
+      "spec": {
+        "accepted": 1738,
+        "drafted": 7406,
+        "accepted_over_draft": 0.2347,
+        "steps": 1058,
+        "tokens_per_target_pass": 2.643,
+        "draft_tokens_per_step": 7.0,
+        "per_position_acceptance": [
+          0.7079,
+          0.4357,
+          0.2401,
+          0.1342,
+          0.0681,
+          0.0369,
+          0.0198
+        ]
+      },
+      "probe": "essay"
+    },
+    {
+      "streams": 8,
+      "errors": 0,
+      "wall_s": 46.63,
+      "aggregate_tok_s": 119.2,
+      "per_stream_tok_s": 15.7,
+      "ttft_med_s": 0.554,
+      "ttft_max_s": 0.557,
+      "spec": {
+        "accepted": 3466,
+        "drafted": 14686,
+        "accepted_over_draft": 0.236,
+        "steps": 2098,
+        "tokens_per_target_pass": 2.652,
+        "draft_tokens_per_step": 7.0,
+        "per_position_acceptance": [
+          0.6883,
+          0.4471,
+          0.2502,
+          0.133,
+          0.0753,
+          0.04,
+          0.0181
+        ]
+      },
+      "probe": "essay"
+    },
+    {
+      "streams": 16,
+      "errors": 0,
+      "wall_s": 64.58,
+      "aggregate_tok_s": 173.4,
+      "per_stream_tok_s": 11.5,
+      "ttft_med_s": 0.82,
+      "ttft_max_s": 0.822,
+      "spec": {
+        "accepted": 7095,
+        "drafted": 28798,
+        "accepted_over_draft": 0.2464,
+        "steps": 4114,
+        "tokens_per_target_pass": 2.725,
+        "draft_tokens_per_step": 7.0,
+        "per_position_acceptance": [
+          0.7166,
+          0.4548,
+          0.2652,
+          0.1434,
+          0.0807,
+          0.044,
+          0.0199
+        ]
+      },
+      "probe": "essay"
+    }
+  ]
+}

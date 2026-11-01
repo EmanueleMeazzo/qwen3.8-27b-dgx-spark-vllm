@@ -1,0 +1,39 @@
+=================== PHASE8 P8-yarncfg (2026-11-01 13:53:47) ===================
+    image=nvcr.io/nvidia/vllm:26.07-py3 model=/hf/local/Qwen3.8-27B-NVFP4-yarn2 yarn=0 ctx=524288 deep=262144,507904
+>>> qwen38: model=/hf/local/Qwen3.8-27B-NVFP4-yarn2 spec=0 memutil=0.90 seqs=16 batch=8192 ctx=524288 cpuset=5-9,15-19
+>>> extra: --speculative-config={"method":"mtp","num_speculative_tokens":3}
+e8ae5c0ccc5898c6a64e4d49c65e00ae53b33cb9bf0617c3a86c3a97da4ef4e5
+--- server up: max_model_len=524288 ---
+[code] net=29.63 tok/s  vis=29.63  ttft=0.258s  e2e=29.31 tok/s  (3 reps)
+[code] accept=0.8344 (1502/1800)  tok/target-pass=3.503
+[essay] net=20.65 tok/s  vis=20.65  ttft=0.263s  e2e=20.47 tok/s  (3 reps)
+[essay] accept=0.4845 (1234/2547)  tok/target-pass=2.453
+[chat] net=22.83 tok/s  vis=22.83  ttft=0.276s  e2e=21.57 tok/s  (3 reps)
+[chat] accept=0.5768 (199/345)  tok/target-pass=2.73
+[mtp] acceptance={'accepted_over_draft': 0.6242, 'accepted': 2972, 'drafted': 4761}
+saved -> /home/emeazzo/dev/qwen3.8/results/P8-yarncfg-probes.json
+[chat] net=23.38 tok/s  vis=23.38  ttft=0.272s  e2e=21.94 tok/s  (1 reps)
+[chat] accept=0.5905 (62/105)  tok/target-pass=2.771
+[mtp] acceptance={'accepted_over_draft': 0.6225, 'accepted': 3048, 'drafted': 4896}
+[depth] {'target_tokens': 1024, 'prompt_tokens': 1096, 'ttft_s': 0.666, 'prefill_tok_s': 1645.6, 'decode_tok_s': 22.27, 'completion_tokens': 300, 'spec': {'accepted': 188, 'drafted': 339, 'accepted_over_draft': 0.5546, 'steps': 113, 'tokens_per_target_pass': 2.664, 'draft_tokens_per_step': 3.0, 'per_position_acceptance': [0.7611, 0.5398, 0.3628]}}
+[depth] {'target_tokens': 16384, 'prompt_tokens': 16442, 'ttft_s': 12.778, 'prefill_tok_s': 1286.7, 'decode_tok_s': 20.33, 'completion_tokens': 300, 'spec': {'accepted': 177, 'drafted': 366, 'accepted_over_draft': 0.4836, 'steps': 122, 'tokens_per_target_pass': 2.451, 'draft_tokens_per_step': 3.0, 'per_position_acceptance': [0.7213, 0.4508, 0.2787]}}
+[depth] {'target_tokens': 131072, 'prompt_tokens': 130752, 'ttft_s': 151.318, 'prefill_tok_s': 864.1, 'decode_tok_s': 19.88, 'completion_tokens': 300, 'spec': {'accepted': 191, 'drafted': 324, 'accepted_over_draft': 0.5895, 'steps': 108, 'tokens_per_target_pass': 2.769, 'draft_tokens_per_step': 3.0, 'per_position_acceptance': [0.8148, 0.5926, 0.3611]}}
+[needle] {'target_tokens': 1024, 'prompt_tokens': 1099, 'found': True, 'answer': '4817'}
+[needle] {'target_tokens': 16384, 'prompt_tokens': 16442, 'found': True, 'answer': '4817'}
+[needle] {'target_tokens': 131072, 'prompt_tokens': 130751, 'found': True, 'answer': '4817'}
+saved -> /home/emeazzo/dev/qwen3.8/results/P8-yarncfg-depth-shallow.json
+[chat] net=21.35 tok/s  vis=21.35  ttft=0.269s  e2e=20.38 tok/s  (1 reps)
+[chat] accept=0.5069 (73/144)  tok/target-pass=2.521
+[mtp] acceptance={'accepted_over_draft': 0.6053, 'accepted': 3697, 'drafted': 6108}
+[depth] {'target_tokens': 262144, 'prompt_tokens': 262411, 'ttft_s': 425.238, 'prefill_tok_s': 617.1, 'decode_tok_s': 16.49, 'completion_tokens': 300, 'spec': {'accepted': 188, 'drafted': 336, 'accepted_over_draft': 0.5595, 'steps': 112, 'tokens_per_target_pass': 2.679, 'draft_tokens_per_step': 3.0, 'per_position_acceptance': [0.7768, 0.5357, 0.3661]}}
+[needle] {'target_tokens': 262144, 'prompt_tokens': 262414, 'found': True, 'answer': '4817'}
+saved -> /home/emeazzo/dev/qwen3.8/results/P8-yarncfg-depth-262144.json
+[chat] net=25.12 tok/s  vis=25.12  ttft=0.272s  e2e=23.79 tok/s  (1 reps)
+[chat] accept=0.6667 (82/123)  tok/target-pass=3.0
+[mtp] acceptance={'accepted_over_draft': 0.6043, 'accepted': 3983, 'drafted': 6591}
+[depth] {'target_tokens': 507904, 'prompt_tokens': 507486, 'ttft_s': 1254.664, 'prefill_tok_s': 404.5, 'decode_tok_s': 12.17, 'completion_tokens': 300, 'spec': {'accepted': 180, 'drafted': 363, 'accepted_over_draft': 0.4959, 'steps': 121, 'tokens_per_target_pass': 2.488, 'draft_tokens_per_step': 3.0, 'per_position_acceptance': [0.719, 0.4711, 0.2975]}}
+[needle] {'target_tokens': 507904, 'prompt_tokens': 507486, 'found': True, 'answer': '4817'}
+saved -> /home/emeazzo/dev/qwen3.8/results/P8-yarncfg-depth-507904.json
+merged -> /home/emeazzo/dev/qwen3.8/results/P8-yarncfg-depth.json
+=================== DONE P8-yarncfg (2026-11-01 15:07:37) ===================
+### PHASE8 COMPLETE (2026-11-01 15:07:37)

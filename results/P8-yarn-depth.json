@@ -1,0 +1,197 @@
+{
+  "tag": "P8-yarn-depth",
+  "port": 8000,
+  "timestamp": "2026-11-01 01:21:26",
+  "sampling": {
+    "temperature": null,
+    "top_p": null
+  },
+  "probes": {
+    "chat": {
+      "median": {
+        "ttft_s": 0.276,
+        "total_s": 4.825,
+        "decode_s": 4.549,
+        "completion_tokens": 110,
+        "reasoning_tokens": 0,
+        "net_decode_tok_s": 24.18,
+        "visible_decode_tok_s": 24.18,
+        "e2e_tok_s": 22.8
+      },
+      "runs": [
+        {
+          "ttft_s": 0.276,
+          "total_s": 4.825,
+          "decode_s": 4.549,
+          "completion_tokens": 110,
+          "reasoning_tokens": 0,
+          "net_decode_tok_s": 24.18,
+          "visible_decode_tok_s": 24.18,
+          "e2e_tok_s": 22.8
+        }
+      ],
+      "spec": {
+        "accepted": 74,
+        "drafted": 111,
+        "accepted_over_draft": 0.6667,
+        "steps": 37,
+        "tokens_per_target_pass": 3.0,
+        "draft_tokens_per_step": 3.0,
+        "per_position_acceptance": [
+          0.8919,
+          0.6486,
+          0.4595
+        ]
+      }
+    }
+  },
+  "mtp": {
+    "accepted_over_draft": 0.6179,
+    "accepted": 3066,
+    "drafted": 4962
+  },
+  "depths": [
+    {
+      "target_tokens": 1024,
+      "prompt_tokens": 1099,
+      "ttft_s": 0.599,
+      "prefill_tok_s": 1834.7,
+      "decode_tok_s": 19.5,
+      "completion_tokens": 300,
+      "spec": {
+        "accepted": 174,
+        "drafted": 378,
+        "accepted_over_draft": 0.4603,
+        "steps": 126,
+        "tokens_per_target_pass": 2.381,
+        "draft_tokens_per_step": 3.0,
+        "per_position_acceptance": [
+          0.7143,
+          0.4444,
+          0.2222
+        ]
+      }
+    },
+    {
+      "target_tokens": 16384,
+      "prompt_tokens": 16444,
+      "ttft_s": 13.013,
+      "prefill_tok_s": 1263.7,
+      "decode_tok_s": 19.26,
+      "completion_tokens": 300,
+      "spec": {
+        "accepted": 176,
+        "drafted": 372,
+        "accepted_over_draft": 0.4731,
+        "steps": 124,
+        "tokens_per_target_pass": 2.419,
+        "draft_tokens_per_step": 3.0,
+        "per_position_acceptance": [
+          0.6774,
+          0.4677,
+          0.2742
+        ]
+      }
+    },
+    {
+      "target_tokens": 131072,
+      "prompt_tokens": 130753,
+      "ttft_s": 150.747,
+      "prefill_tok_s": 867.4,
+      "decode_tok_s": 17.5,
+      "completion_tokens": 300,
+      "spec": {
+        "accepted": 181,
+        "drafted": 354,
+        "accepted_over_draft": 0.5113,
+        "steps": 118,
+        "tokens_per_target_pass": 2.534,
+        "draft_tokens_per_step": 3.0,
+        "per_position_acceptance": [
+          0.7034,
+          0.4915,
+          0.339
+        ]
+      }
+    },
+    {
+      "target_tokens": 262144,
+      "prompt_tokens": 262412,
+      "ttft_s": 422.325,
+      "prefill_tok_s": 621.4,
+      "decode_tok_s": 7.35,
+      "completion_tokens": 300,
+      "spec": {
+        "accepted": 0,
+        "drafted": 897,
+        "accepted_over_draft": 0.0,
+        "steps": 299,
+        "tokens_per_target_pass": 1.0,
+        "draft_tokens_per_step": 3.0,
+        "per_position_acceptance": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "target_tokens": 507904,
+      "prompt_tokens": 507486,
+      "ttft_s": 1207.649,
+      "prefill_tok_s": 420.2,
+      "decode_tok_s": 5.77,
+      "completion_tokens": 300,
+      "spec": {
+        "accepted": 0,
+        "drafted": 897,
+        "accepted_over_draft": 0.0,
+        "steps": 299,
+        "tokens_per_target_pass": 1.0,
+        "draft_tokens_per_step": 3.0,
+        "per_position_acceptance": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "needle": [
+    {
+      "target_tokens": 1024,
+      "prompt_tokens": 1098,
+      "found": true,
+      "answer": "4817"
+    },
+    {
+      "target_tokens": 16384,
+      "prompt_tokens": 16445,
+      "found": true,
+      "answer": "4817"
+    },
+    {
+      "target_tokens": 131072,
+      "prompt_tokens": 130752,
+      "found": true,
+      "answer": "4817"
+    },
+    {
+      "target_tokens": 262144,
+      "prompt_tokens": 262414,
+      "found": true,
+      "answer": "4817"
+    },
+    {
+      "target_tokens": 507904,
+      "prompt_tokens": 507488,
+      "found": true,
+      "answer": "4817"
+    }
+  ],
+  "parts": [
+    "P8-yarn-depth-shallow.json",
+    "P8-yarn-depth-262144.json",
+    "P8-yarn-depth-507904.json"
+  ]
+}

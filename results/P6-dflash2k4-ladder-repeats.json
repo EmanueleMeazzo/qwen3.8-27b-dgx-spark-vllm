@@ -1,0 +1,185 @@
+{
+  "tag": "P6-dflash2k4-ladder-repeats",
+  "note": "DFlash2 num_speculative_tokens=4, essay probe, upstream nightly, one boot. Three independent measurements of each rung; cited in README \u00a74.",
+  "runs": [
+    {
+      "source": "P6-dflash2k4-ladder.json",
+      "rungs": [
+        {
+          "streams": 8,
+          "errors": 0,
+          "wall_s": 52.96,
+          "aggregate_tok_s": 105.5,
+          "per_stream_tok_s": 14.1,
+          "ttft_med_s": 2.192,
+          "ttft_max_s": 2.193,
+          "spec": {
+            "accepted": 3400,
+            "drafted": 8752,
+            "accepted_over_draft": 0.3885,
+            "steps": 2188,
+            "tokens_per_target_pass": 2.554,
+            "draft_tokens_per_step": 4.0,
+            "per_position_acceptance": [
+              0.7176,
+              0.4433,
+              0.2473,
+              0.1458
+            ]
+          },
+          "probe": "essay"
+        },
+        {
+          "streams": 16,
+          "errors": 0,
+          "wall_s": 56.25,
+          "aggregate_tok_s": 198.4,
+          "per_stream_tok_s": 13.0,
+          "ttft_med_s": 0.78,
+          "ttft_max_s": 0.783,
+          "spec": {
+            "accepted": 6760,
+            "drafted": 17620,
+            "accepted_over_draft": 0.3837,
+            "steps": 4405,
+            "tokens_per_target_pass": 2.535,
+            "draft_tokens_per_step": 4.0,
+            "per_position_acceptance": [
+              0.7081,
+              0.4411,
+              0.2499,
+              0.1355
+            ]
+          },
+          "probe": "essay"
+        }
+      ]
+    },
+    {
+      "source": "k4rep1.json",
+      "rungs": [
+        {
+          "streams": 8,
+          "errors": 0,
+          "wall_s": 53.44,
+          "aggregate_tok_s": 104.6,
+          "per_stream_tok_s": 14.1,
+          "ttft_med_s": 0.562,
+          "ttft_max_s": 0.565,
+          "spec": {
+            "accepted": 3378,
+            "drafted": 8844,
+            "accepted_over_draft": 0.382,
+            "steps": 2211,
+            "tokens_per_target_pass": 2.528,
+            "draft_tokens_per_step": 4.0,
+            "per_position_acceptance": [
+              0.7051,
+              0.445,
+              0.2424,
+              0.1352
+            ]
+          },
+          "probe": "essay"
+        },
+        {
+          "streams": 16,
+          "errors": 0,
+          "wall_s": 56.55,
+          "aggregate_tok_s": 197.0,
+          "per_stream_tok_s": 13.1,
+          "ttft_med_s": 0.782,
+          "ttft_max_s": 0.785,
+          "spec": {
+            "accepted": 6789,
+            "drafted": 17388,
+            "accepted_over_draft": 0.3904,
+            "steps": 4347,
+            "tokens_per_target_pass": 2.562,
+            "draft_tokens_per_step": 4.0,
+            "per_position_acceptance": [
+              0.7097,
+              0.4566,
+              0.2558,
+              0.1396
+            ]
+          },
+          "probe": "essay"
+        }
+      ]
+    },
+    {
+      "source": "k4rep2.json",
+      "rungs": [
+        {
+          "streams": 8,
+          "errors": 0,
+          "wall_s": 53.69,
+          "aggregate_tok_s": 104.3,
+          "per_stream_tok_s": 13.8,
+          "ttft_med_s": 0.562,
+          "ttft_max_s": 0.564,
+          "spec": {
+            "accepted": 3353,
+            "drafted": 8996,
+            "accepted_over_draft": 0.3727,
+            "steps": 2249,
+            "tokens_per_target_pass": 2.491,
+            "draft_tokens_per_step": 4.0,
+            "per_position_acceptance": [
+              0.7056,
+              0.4255,
+              0.2357,
+              0.1241
+            ]
+          },
+          "probe": "essay"
+        },
+        {
+          "streams": 16,
+          "errors": 0,
+          "wall_s": 57.46,
+          "aggregate_tok_s": 194.5,
+          "per_stream_tok_s": 12.9,
+          "ttft_med_s": 0.779,
+          "ttft_max_s": 0.783,
+          "spec": {
+            "accepted": 6749,
+            "drafted": 17720,
+            "accepted_over_draft": 0.3809,
+            "steps": 4430,
+            "tokens_per_target_pass": 2.523,
+            "draft_tokens_per_step": 4.0,
+            "per_position_acceptance": [
+              0.7036,
+              0.4413,
+              0.2409,
+              0.1377
+            ]
+          },
+          "probe": "essay"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "8": {
+      "values": [
+        105.5,
+        104.6,
+        104.3
+      ],
+      "mean": 104.8,
+      "spread_pct": 1.1
+    },
+    "16": {
+      "values": [
+        198.4,
+        197.0,
+        194.5
+      ],
+      "mean": 196.6,
+      "spread_pct": 2.0
+    }
+  }
+}

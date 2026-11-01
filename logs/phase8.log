@@ -1,0 +1,65 @@
+=================== PHASE8 P8-ctl (2026-11-01 00:54:30) ===================
+    image=nvcr.io/nvidia/vllm:26.07-py3 yarn=0 ctx=262144 deep=none
+>>> qwen38: model=unsloth/Qwen3.8-27B-NVFP4 spec=0 memutil=0.90 seqs=16 batch=8192 ctx=262144 cpuset=5-9,15-19
+>>> extra: --speculative-config={"method":"mtp","num_speculative_tokens":3}
+81e49452df60cce29ddd6b51b33306be6fa43f6d6d85af10ca47bc9a25e63c2a
+--- server up: max_model_len=262144 ---
+[code] net=28.34 tok/s  vis=28.34  ttft=0.263s  e2e=28.05 tok/s  (3 reps)
+[code] accept=0.8325 (1501/1803)  tok/target-pass=3.498
+[essay] net=19.33 tok/s  vis=19.33  ttft=0.256s  e2e=19.2 tok/s  (3 reps)
+[essay] accept=0.4482 (1206/2691)  tok/target-pass=2.344
+[chat] net=22.39 tok/s  vis=22.39  ttft=0.286s  e2e=21.36 tok/s  (3 reps)
+[chat] accept=0.6026 (188/312)  tok/target-pass=2.808
+[mtp] acceptance={'accepted_over_draft': 0.5999, 'accepted': 2937, 'drafted': 4896}
+saved -> /home/emeazzo/dev/qwen3.8/results/P8-ctl-probes.json
+[chat] net=24.03 tok/s  vis=24.03  ttft=0.282s  e2e=22.76 tok/s  (1 reps)
+[chat] accept=0.6423 (79/123)  tok/target-pass=2.927
+[mtp] acceptance={'accepted_over_draft': 0.5998, 'accepted': 3030, 'drafted': 5052}
+[depth] {'target_tokens': 1024, 'prompt_tokens': 1099, 'ttft_s': 0.792, 'prefill_tok_s': 1387.6, 'decode_tok_s': 19.52, 'completion_tokens': 300, 'spec': {'accepted': 174, 'drafted': 378, 'accepted_over_draft': 0.4603, 'steps': 126, 'tokens_per_target_pass': 2.381, 'draft_tokens_per_step': 3.0, 'per_position_acceptance': [0.6905, 0.4286, 0.2619]}}
+[depth] {'target_tokens': 16384, 'prompt_tokens': 16444, 'ttft_s': 13.753, 'prefill_tok_s': 1195.7, 'decode_tok_s': 22.31, 'completion_tokens': 300, 'spec': {'accepted': 192, 'drafted': 324, 'accepted_over_draft': 0.5926, 'steps': 108, 'tokens_per_target_pass': 2.778, 'draft_tokens_per_step': 3.0, 'per_position_acceptance': [0.8056, 0.5741, 0.3981]}}
+[depth] {'target_tokens': 131072, 'prompt_tokens': 130751, 'ttft_s': 153.564, 'prefill_tok_s': 851.4, 'decode_tok_s': 17.96, 'completion_tokens': 300, 'spec': {'accepted': 184, 'drafted': 348, 'accepted_over_draft': 0.5287, 'steps': 116, 'tokens_per_target_pass': 2.586, 'draft_tokens_per_step': 3.0, 'per_position_acceptance': [0.7759, 0.4914, 0.319]}}
+[needle] {'target_tokens': 1024, 'prompt_tokens': 1101, 'found': True, 'answer': '4817'}
+[needle] {'target_tokens': 16384, 'prompt_tokens': 16445, 'found': True, 'answer': '4817'}
+[needle] {'target_tokens': 131072, 'prompt_tokens': 130753, 'found': True, 'answer': '4817'}
+saved -> /home/emeazzo/dev/qwen3.8/results/P8-ctl-depth-shallow.json
+merged -> /home/emeazzo/dev/qwen3.8/results/P8-ctl-depth.json
+=================== DONE P8-ctl (2026-11-01 01:10:26) ===================
+=================== PHASE8 P8-yarn (2026-11-01 01:10:26) ===================
+    image=nvcr.io/nvidia/vllm:26.07-py3 yarn=1 ctx=524288 deep=262144,507904
+>>> qwen38: model=unsloth/Qwen3.8-27B-NVFP4 spec=0 memutil=0.90 seqs=16 batch=8192 ctx=524288 cpuset=5-9,15-19
+>>> extra: --speculative-config={"method":"mtp","num_speculative_tokens":3}
+b60949e023a0d0be6b3920aff87059b664a6d4a4e11ed1a50cc33ab4902064fe
+--- server up: max_model_len=524288 ---
+[code] net=28.86 tok/s  vis=28.86  ttft=0.266s  e2e=28.53 tok/s  (3 reps)
+[code] accept=0.8417 (1505/1788)  tok/target-pass=3.525
+[essay] net=19.47 tok/s  vis=19.47  ttft=0.27s  e2e=19.33 tok/s  (3 reps)
+[essay] accept=0.4671 (1212/2595)  tok/target-pass=2.401
+[chat] net=22.79 tok/s  vis=22.79  ttft=0.281s  e2e=21.68 tok/s  (3 reps)
+[chat] accept=0.6022 (224/372)  tok/target-pass=2.806
+[mtp] acceptance={'accepted_over_draft': 0.6173, 'accepted': 2978, 'drafted': 4824}
+saved -> /home/emeazzo/dev/qwen3.8/results/P8-yarn-probes.json
+[chat] net=24.18 tok/s  vis=24.18  ttft=0.276s  e2e=22.8 tok/s  (1 reps)
+[chat] accept=0.6667 (74/111)  tok/target-pass=3.0
+[mtp] acceptance={'accepted_over_draft': 0.6179, 'accepted': 3066, 'drafted': 4962}
+[depth] {'target_tokens': 1024, 'prompt_tokens': 1099, 'ttft_s': 0.599, 'prefill_tok_s': 1834.7, 'decode_tok_s': 19.5, 'completion_tokens': 300, 'spec': {'accepted': 174, 'drafted': 378, 'accepted_over_draft': 0.4603, 'steps': 126, 'tokens_per_target_pass': 2.381, 'draft_tokens_per_step': 3.0, 'per_position_acceptance': [0.7143, 0.4444, 0.2222]}}
+[depth] {'target_tokens': 16384, 'prompt_tokens': 16444, 'ttft_s': 13.013, 'prefill_tok_s': 1263.7, 'decode_tok_s': 19.26, 'completion_tokens': 300, 'spec': {'accepted': 176, 'drafted': 372, 'accepted_over_draft': 0.4731, 'steps': 124, 'tokens_per_target_pass': 2.419, 'draft_tokens_per_step': 3.0, 'per_position_acceptance': [0.6774, 0.4677, 0.2742]}}
+[depth] {'target_tokens': 131072, 'prompt_tokens': 130753, 'ttft_s': 150.747, 'prefill_tok_s': 867.4, 'decode_tok_s': 17.5, 'completion_tokens': 300, 'spec': {'accepted': 181, 'drafted': 354, 'accepted_over_draft': 0.5113, 'steps': 118, 'tokens_per_target_pass': 2.534, 'draft_tokens_per_step': 3.0, 'per_position_acceptance': [0.7034, 0.4915, 0.339]}}
+[needle] {'target_tokens': 1024, 'prompt_tokens': 1098, 'found': True, 'answer': '4817'}
+[needle] {'target_tokens': 16384, 'prompt_tokens': 16445, 'found': True, 'answer': '4817'}
+[needle] {'target_tokens': 131072, 'prompt_tokens': 130752, 'found': True, 'answer': '4817'}
+saved -> /home/emeazzo/dev/qwen3.8/results/P8-yarn-depth-shallow.json
+[chat] net=21.72 tok/s  vis=21.72  ttft=0.276s  e2e=20.44 tok/s  (1 reps)
+[chat] accept=0.5556 (60/108)  tok/target-pass=2.667
+[mtp] acceptance={'accepted_over_draft': 0.5931, 'accepted': 3678, 'drafted': 6201}
+[depth] {'target_tokens': 262144, 'prompt_tokens': 262412, 'ttft_s': 422.325, 'prefill_tok_s': 621.4, 'decode_tok_s': 7.35, 'completion_tokens': 300, 'spec': {'accepted': 0, 'drafted': 897, 'accepted_over_draft': 0.0, 'steps': 299, 'tokens_per_target_pass': 1.0, 'draft_tokens_per_step': 3.0, 'per_position_acceptance': [0.0, 0.0, 0.0]}}
+[needle] {'target_tokens': 262144, 'prompt_tokens': 262414, 'found': True, 'answer': '4817'}
+saved -> /home/emeazzo/dev/qwen3.8/results/P8-yarn-depth-262144.json
+[chat] net=25.28 tok/s  vis=25.28  ttft=0.275s  e2e=23.64 tok/s  (1 reps)
+[chat] accept=0.7083 (68/96)  tok/target-pass=3.125
+[mtp] acceptance={'accepted_over_draft': 0.5193, 'accepted': 3756, 'drafted': 7233}
+[depth] {'target_tokens': 507904, 'prompt_tokens': 507486, 'ttft_s': 1207.649, 'prefill_tok_s': 420.2, 'decode_tok_s': 5.77, 'completion_tokens': 300, 'spec': {'accepted': 0, 'drafted': 897, 'accepted_over_draft': 0.0, 'steps': 299, 'tokens_per_target_pass': 1.0, 'draft_tokens_per_step': 3.0, 'per_position_acceptance': [0.0, 0.0, 0.0]}}
+[needle] {'target_tokens': 507904, 'prompt_tokens': 507488, 'found': True, 'answer': '4817'}
+saved -> /home/emeazzo/dev/qwen3.8/results/P8-yarn-depth-507904.json
+merged -> /home/emeazzo/dev/qwen3.8/results/P8-yarn-depth.json
+=================== DONE P8-yarn (2026-11-01 02:24:09) ===================
+### PHASE8 COMPLETE (2026-11-01 02:24:09)
